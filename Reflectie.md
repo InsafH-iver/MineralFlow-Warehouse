@@ -2,8 +2,6 @@
 
 ## 🔗 Pre coaching
 
----
-
 ### Geschatte Progress (in procent): ...%
 
 ### Status
@@ -31,7 +29,6 @@ BV.
 - Moeten we verplicht gebruik maken van de schedulingfunctionaliteit van Spring?
 - Mogen we ons voor de unit testen beperken tot de zaken die gevraagd worden in de opgave?
 
----
 
 ## Post coaching
 
