@@ -40,6 +40,7 @@ BV.
 
 - Is er een vaste manier hoe dat FIFO wordt geimplementeerd?
 - Is onze manier van hoe dat we FIFO gaan aanpakken, een stabiele manier van coderen?
+- Wat moet er nog in de README file?
 
 ## Post coaching
 
