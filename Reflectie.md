@@ -47,4 +47,8 @@ Verder komen we goed overeen en zijn we kritisch over elkaars code/ keuze ivm de
 
 ### Feedback
 
+- fifo volledig up to you 
+- readme uitleg over project, hoe runnen, wat te configureren 
+- kijken naar @configurationProperties ipv application.properties
+
 
