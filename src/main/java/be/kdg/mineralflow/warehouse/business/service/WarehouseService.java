@@ -41,11 +41,22 @@ public class WarehouseService {
         return warehouseNumber;
     }
 
-    public boolean isWarehouseFull(String vendorName, String resourceName) {
-        logger.info(String.format("Checking if warehouse %s is full", vendorName));
-        Vendor vendor = vendorRepository.findByName(vendorName);
-        Resource resource = resourceRepository.findByName(resourceName);
-        List<Warehouse> warehouse = warehouseRepository.findAllByVendorIdAndResourceId(vendor.getId(),resource.getId());
+    public boolean isWarehouseFull(UUID vendorId, UUID resourceId) {
+        logger.info(String.format("Checking if warehouse %s is full", vendorId));
+        Optional<Vendor> optionalVendor = vendorRepository.findById(vendorId);
+        if (optionalVendor.isEmpty()) {
+            String messageException = String.format("Vendor with id %s, was not found", vendorId);
+            logger.severe(messageException);
+            throw new NoItemFoundException(messageException);
+        }
+
+        Optional<Resource> optionalResource = resourceRepository.findById(resourceId);
+        if (optionalResource.isEmpty()) {
+            String messageException = String.format("Resource with id %s, was not found", resourceId);
+            logger.severe(messageException);
+            throw new NoItemFoundException(messageException);
+        }
+        List<Warehouse> warehouse = warehouseRepository.findAllByVendorIdAndResourceId(optionalVendor.get().getId(),optionalResource.get().getId());
         for (Warehouse w : warehouse) {
             if (!w.isFull()) return false;
         }

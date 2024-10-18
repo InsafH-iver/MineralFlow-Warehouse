@@ -3,6 +3,7 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 import be.kdg.mineralflow.warehouse.business.service.WarehouseService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController
@@ -16,8 +17,8 @@ public class WarehouseCapacityRestController {
         this.warehouseService = warehouseService;
     }
 
-    @GetMapping("/{vendorName}/{resourceName}")
-    public boolean isWarehouseFull(@PathVariable("vendorName") String vendorName, @PathVariable("resourceName") String resourceName) {
-        return warehouseService.isWarehouseFull(vendorName,resourceName);
+    @GetMapping("/{vendorId}/{resourceId}")
+    public boolean isWarehouseFull(@PathVariable("vendorId") UUID vendorId, @PathVariable("resourceId") UUID resourceId) {
+        return warehouseService.isWarehouseFull(vendorId,resourceId);
     }
 }
