@@ -18,6 +18,7 @@ public class Warehouse {
     private UUID id;
     private int warehouseNumber;
     private double usedCapacityInTon;
+    private double maxCapacityInTon;
 
     @ManyToOne
     private Resource resource;
@@ -29,15 +30,19 @@ public class Warehouse {
     protected Warehouse() {
     }
 
-    public Warehouse(UUID id, int warehouseNumber, double usedCapacityInTon) {
+    public Warehouse(UUID id, int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
         this.id = id;
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
         stockPortions = new ArrayList<>();
+        this.maxCapacityInTon = maxCapacityInTon;
     }
 
     public int getWarehouseNumber() {
         return warehouseNumber;
+    }
+    public boolean isFull(){
+        return usedCapacityInTon >= maxCapacityInTon * 0.8;
     }
 
     public void addStockPortion(double amountInTon, ZonedDateTime deliveryTime, double storageCostPerTonPerDay) {
