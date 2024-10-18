@@ -2,6 +2,7 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,8 @@ class WarehouseServiceTest extends TestContainer {
     private WarehouseService warehouseService;
     @MockBean
     private WarehouseRepository warehouseRepository;
+    @Autowired
+    private ConfigProperties configProperties;
 
 
     @Test
@@ -30,7 +33,7 @@ class WarehouseServiceTest extends TestContainer {
         //ARRANGE
         int warehouseNumber = 2;
         Warehouse warehouse = new Warehouse(UUID.randomUUID(), warehouseNumber,
-                123);
+                123,configProperties.warehouseMaxCapacityInTon);
         UUID vendorId = UUID.randomUUID();
         UUID resourceId = UUID.randomUUID();
 

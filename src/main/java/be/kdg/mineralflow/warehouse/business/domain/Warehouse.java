@@ -1,6 +1,7 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
+import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -19,13 +20,13 @@ public class Warehouse {
     private int warehouseNumber;
     private double usedCapacityInTon;
     private double maxCapacityInTon;
-
     @ManyToOne
     private Resource resource;
     @ManyToOne
     private Vendor vendor;
     @OneToMany(cascade = CascadeType.ALL)
     private List<StockPortion> stockPortions;
+
 
     protected Warehouse() {
     }
