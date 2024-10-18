@@ -20,4 +20,15 @@ public class Resource {
     protected Resource() {
     }
 
+    public double getStoragePricePerTonPerDay() {
+        return storagePricePerTonPerDay;
+    }
+
+    public Resource(UUID id, String description, String name, double sellingPricePerTon, double storagePricePerTonPerDay) {
+        this.id = id;
+        this.description = description;
+        this.name = name;
+        this.sellingPricePerTon = sellingPricePerTon;
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+    }
 }

@@ -1,11 +1,18 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
+import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Entity
 public class Warehouse {
+    public static final Logger logger = Logger
+            .getLogger(Warehouse.class.getName());
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -16,6 +23,8 @@ public class Warehouse {
     private Resource resource;
     @ManyToOne
     private Vendor vendor;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<StockPortion> stockPortions;
 
     protected Warehouse() {
     }
@@ -24,9 +33,25 @@ public class Warehouse {
         this.id = id;
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
+        stockPortions = new ArrayList<>();
     }
 
     public int getWarehouseNumber() {
         return warehouseNumber;
+    }
+
+    public void addStockPortion(double amountInTon, ZonedDateTime deliveryTime, double storageCostPerTonPerDay) {
+        if (amountInTon < 0) {
+            String text = String.format("The provided amount in ton (%f) is invalid. The value must be a positive number.", amountInTon);
+            logger.severe(text);
+            throw new IncorrectDomainException(text);
+        }
+        usedCapacityInTon += amountInTon;
+        StockPortion stockPortion = new StockPortion(amountInTon, deliveryTime, storageCostPerTonPerDay);
+        stockPortions.add(stockPortion);
+    }
+
+    public List<StockPortion> getStockPortions() {
+        return stockPortions;
     }
 }

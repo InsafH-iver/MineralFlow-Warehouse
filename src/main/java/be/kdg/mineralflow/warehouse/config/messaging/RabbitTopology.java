@@ -23,12 +23,12 @@ public class RabbitTopology {
 
     @Bean
     public Queue arrivalAtWareHouseQueue() {
-        return new Queue(rabbitConfigProperties.getTruckArrivalAtWarehouseQueue(), false);
+        return new Queue(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeQueue(), false);
     }
 
     @Bean
     public Binding arrivalAtWareHouseBinding(TopicExchange topicExchange, Queue topicQueueHello) {
-        return BindingBuilder.bind(topicQueueHello).to(topicExchange).with(rabbitConfigProperties.getTruckArrivalAtWarehouseRoutingKey());
+        return BindingBuilder.bind(topicQueueHello).to(topicExchange).with(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeRoutingKey());
 
     }
 }

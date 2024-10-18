@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "messaging")
 public class RabbitConfigProperties {
     private String exchangeName;
-    private String truckArrivalAtWarehouseRoutingKey;
-    private String truckArrivalAtWarehouseQueue;
+    private String truckDepartureFromWeighingBridgeRoutingKey;
+    private String truckDepartureFromWeighingBridgeQueue;
 
-    public String getTruckArrivalAtWarehouseQueue() {
-        return truckArrivalAtWarehouseQueue;
+    public String getTruckDepartureFromWeighingBridgeQueue() {
+        return truckDepartureFromWeighingBridgeQueue;
     }
 
-    public String getTruckArrivalAtWarehouseRoutingKey() {
-        return truckArrivalAtWarehouseRoutingKey;
+    public String getTruckDepartureFromWeighingBridgeRoutingKey() {
+        return truckDepartureFromWeighingBridgeRoutingKey;
     }
 
     public String getExchangeName() {
@@ -26,11 +26,11 @@ public class RabbitConfigProperties {
         this.exchangeName = exchangeName;
     }
 
-    public void setTruckArrivalAtWarehouseRoutingKey(String truckArrivalAtWarehouseRoutingKey) {
-        this.truckArrivalAtWarehouseRoutingKey = truckArrivalAtWarehouseRoutingKey;
+    public void setTruckDepartureFromWeighingBridgeRoutingKey(String truckDepartureFromWeighingBridgeRoutingKey) {
+        this.truckDepartureFromWeighingBridgeRoutingKey = truckDepartureFromWeighingBridgeRoutingKey;
     }
 
-    public void setTruckArrivalAtWarehouseQueue(String truckArrivalAtWarehouseQueue) {
-        this.truckArrivalAtWarehouseQueue = truckArrivalAtWarehouseQueue;
+    public void setTruckDepartureFromWeighingBridgeQueue(String truckDepartureFromWeighingBridgeQueue) {
+        this.truckDepartureFromWeighingBridgeQueue = truckDepartureFromWeighingBridgeQueue;
     }
 }

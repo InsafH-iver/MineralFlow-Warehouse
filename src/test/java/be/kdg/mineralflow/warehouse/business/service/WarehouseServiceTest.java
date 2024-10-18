@@ -43,7 +43,6 @@ class WarehouseServiceTest extends TestContainer {
         //ASSERT
         assertThat(actualWarehouseNumber).isEqualTo(warehouseNumber);
         Mockito.verify(warehouseRepository, Mockito.times(1)).findFirstByVendorIdAndResourceId(vendorId, resourceId);
-
     }
 
     @Test
