@@ -9,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -20,13 +22,13 @@ class WarehouseCapacityRestControllerTest extends TestContainer {
     @Test
     void isWarehouseFull_should_return_false_if_warehouse_is_not_full() throws Exception {
         //ARRANGE
-        String resourceName = "Gips";
-        String vendorName = "Acme Supplies";
+        UUID resourceId = UUID.fromString("11111111-1111-1111-1111-111111111112");
+        UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111111");
 
         //ACT
         var some = mockMvc.perform(
-                        get("/api/warehouseCapacity/{vendorName}/{resourceName}"
-                                , vendorName, resourceName)
+                        get("/api/warehouseCapacity/{vendorId}/{resourceId}"
+                                , vendorId, resourceId)
                                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(header().string(
@@ -38,13 +40,13 @@ class WarehouseCapacityRestControllerTest extends TestContainer {
     @Test
     void isWarehouseFull_should_return_true_if_warehouse_is_full() throws Exception {
         //ARRANGE
-        String resourceName = "Beton";
-        String vendorName = "Atlaan";
+        UUID resourceId = UUID.fromString("11111111-1111-1111-1111-111111111114");
+        UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111115");
 
         //ACT
         var some = mockMvc.perform(
-                        get("/api/warehouseCapacity/{vendorName}/{resourceName}"
-                                , vendorName, resourceName)
+                        get("/api/warehouseCapacity/{vendorId}/{resourceId}"
+                                , vendorId, resourceId)
                                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andExpect(header().string(
