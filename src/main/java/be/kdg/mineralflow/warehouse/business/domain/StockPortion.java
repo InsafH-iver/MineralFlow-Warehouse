@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -36,5 +37,9 @@ public class StockPortion {
 
     public double getStorageCostPerTonPerDay() {
         return storageCostPerTonPerDay;
+    }
+    public double getStorageCost(ZonedDateTime current){
+        long daysBetween = ChronoUnit.DAYS.between(arrivalTime,current);
+        return daysBetween * storageCostPerTonPerDay;
     }
 }
