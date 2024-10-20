@@ -3,6 +3,7 @@ package be.kdg.mineralflow.warehouse.business.domain;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -42,8 +43,8 @@ public class Warehouse {
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
-    public boolean isFull(){
-        return usedCapacityInTon >= maxCapacityInTon * 0.8;
+    public boolean isFull(double maxCapacityThreshold){
+        return usedCapacityInTon >= maxCapacityInTon * maxCapacityThreshold;
     }
 
     public void addStockPortion(double amountInTon, ZonedDateTime deliveryTime, double storageCostPerTonPerDay) {

@@ -45,7 +45,7 @@ class StockPortionDeliveryServiceTest extends TestContainer {
         UUID resourceId = UUID.randomUUID();
         UUID vendorId = UUID.randomUUID();
         Warehouse warehouse = new Warehouse(UUID.randomUUID(), 3,
-                usedCapacity,configProperties.warehouseMaxCapacityInTon);
+                usedCapacity,configProperties.getWarehouseMaxCapacityInTon());
         Resource resource = new Resource(resourceId, "description",
                 "Betton", 345, storagePricePerTon);
 
@@ -124,7 +124,7 @@ class StockPortionDeliveryServiceTest extends TestContainer {
         UUID resourceId = UUID.randomUUID();
         UUID vendorId = UUID.randomUUID();
         Warehouse warehouse = new Warehouse(UUID.randomUUID(), 3,
-                usedCapacity,configProperties.warehouseMaxCapacityInTon);
+                usedCapacity,configProperties.getWarehouseMaxCapacityInTon());
         Resource resource = new Resource(resourceId, "description",
                 "Betton", 345, storagePricePerTon);
 
