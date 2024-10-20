@@ -64,6 +64,9 @@ Verder komen we goed overeen en zijn we kritisch over elkaars code/ keuze ivm de
 applicatie uitgewerkt? (details progress kunnen we bekijken op het issue board)*
 
 # Insaf:
+- We wouden wat meer afhebben tegen deze deadline, maar we hebben ons best gedaan
+- Samenwerking verliep vlot
+- Ik heb de messaging opgezet, de pdf generatie en het wegen + inladen
 
 # Timon:
 - We staan wat achter op schema.
