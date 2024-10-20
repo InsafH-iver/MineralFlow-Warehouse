@@ -73,11 +73,16 @@ public class Warehouse {
         return stockPortions;
     }
     public double getStorageCost(ZonedDateTime current){
-        return stockPortions.stream().mapToDouble(s -> s.getStorageCost(current)).sum();
+        return stockPortions.stream()
+                .mapToDouble(s -> s.getStorageCost(current)).sum();
     }
 
     public Vendor getVendor() {
         return vendor;
+    }
+
+    public Resource getResource() {
+        return resource;
     }
 
     public double getUsedCapacityInTon() {
