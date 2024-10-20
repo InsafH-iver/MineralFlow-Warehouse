@@ -9,4 +9,5 @@ import java.util.UUID;
 
 public interface ResourceRepository extends JpaRepository<Resource, UUID> {
 
+    Resource findByName(String resourceName);
 }

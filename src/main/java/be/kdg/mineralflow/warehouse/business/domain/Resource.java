@@ -20,9 +20,6 @@ public class Resource {
     protected Resource() {
     }
 
-    public double getStoragePricePerTonPerDay() {
-        return storagePricePerTonPerDay;
-    }
 
     public Resource(UUID id, String description, String name, double sellingPricePerTon, double storagePricePerTonPerDay) {
         this.id = id;
@@ -30,5 +27,23 @@ public class Resource {
         this.name = name;
         this.sellingPricePerTon = sellingPricePerTon;
         this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+    }
+    public double getStoragePricePerTonPerDay() {
+        return storagePricePerTonPerDay;
+    }
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSellingPricePerTon() {
+        return sellingPricePerTon;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
