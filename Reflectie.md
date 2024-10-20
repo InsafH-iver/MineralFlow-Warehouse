@@ -52,3 +52,38 @@ Verder komen we goed overeen en zijn we kritisch over elkaars code/ keuze ivm de
 - kijken naar @configurationProperties ipv application.properties
 
 
+# V2
+
+## 🔗 Pre coaching
+
+### Geschatte Progress (in procent): 45%
+
+### Status
+
+*Waar sta je globaal? Wat loopt goed en minder goed? Hoe verloopt de samenwerking? Wie heeft globaal welke delen van de
+applicatie uitgewerkt? (details progress kunnen we bekijken op het issue board)*
+
+# Insaf:
+
+# Timon:
+- We staan wat achter op schema.
+- De samenwerking verloopt vlot, we zijn redelijk bereikbaar allebij waardoor er makkelijk gecomuniceerd wordt.
+- Ik heb mij bezig gehoude met de Queue verwerking en de gevraagde zaken met UI.
+
+### Stories
+
+*(enkel voor stories die speciale aandacht vergen)*
+- \18. Als accountant wil ik elke dag om 9.00 uur precies de opslagkosten berekenen en de facturen opmaken.
+  - Wat moet er met de facturen gebeuren?
+
+### Quality
+....
+
+### Vragen
+
+*Eventuele vragen voor je coach*
+## Post coaching
+
+### Feedback
+
+- 
