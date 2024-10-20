@@ -4,6 +4,7 @@ import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
@@ -31,6 +32,8 @@ class StockPortionDeliveryServiceTest extends TestContainer {
     private ResourceRepository resourceRepository;
     @Autowired
     private StockPortionDeliveryService stockPortionDeliveryService;
+    @Autowired
+    private ConfigProperties configProperties;
 
     @Test
     void handleStockPortionAtDelivery_Should_Succeed_When_Warehouse_Exists_And_Weight_Is_Positive() {
@@ -42,7 +45,7 @@ class StockPortionDeliveryServiceTest extends TestContainer {
         UUID resourceId = UUID.randomUUID();
         UUID vendorId = UUID.randomUUID();
         Warehouse warehouse = new Warehouse(UUID.randomUUID(), 3,
-                usedCapacity);
+                usedCapacity,configProperties.getWarehouseMaxCapacityInTon());
         Resource resource = new Resource(resourceId, "description",
                 "Betton", 345, storagePricePerTon);
 
@@ -121,7 +124,7 @@ class StockPortionDeliveryServiceTest extends TestContainer {
         UUID resourceId = UUID.randomUUID();
         UUID vendorId = UUID.randomUUID();
         Warehouse warehouse = new Warehouse(UUID.randomUUID(), 3,
-                usedCapacity);
+                usedCapacity,configProperties.getWarehouseMaxCapacityInTon());
         Resource resource = new Resource(resourceId, "description",
                 "Betton", 345, storagePricePerTon);
 
