@@ -5,6 +5,15 @@
   <title>Start Static</title>
 </head>
 <body>
-<h1>Welcome to Krystal Delivery Serverices</h1>
+<h1>Retrieve invoice</h1>
+<form action="/invoice">
+  <label for="vendorName">Vendor Name:</label>
+  <input type="text" id="vendorName" name="vendorName" placeholder="Enter vendor name" required>
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" required>
+
+  <button type="submit">Get Invoice</button>
+</form>
 </body>
 </html>

@@ -1,9 +1,8 @@
-package be.kdg.mineralflow.warehouse.presentation.controller.mapper;
+package be.kdg.mineralflow.warehouse.business.util.mapper;
 
 
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.domain.InvoiceLine;
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceLineDto;
 import org.mapstruct.*;

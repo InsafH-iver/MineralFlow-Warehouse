@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"></meta>
     <title>Invoice</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
             <th>Weight (in ton)</th>
             <th>Storageprice/day/ton</th>
             <th>Days in storage</th>
-            <th>Total price</th>
+            <th>Total price in dollar</th>
         </tr>
         <tr th:each="stockp: ${invoice.getInvoiceLines()}">
             <td th:text="${stockp.getArrivalTime()}"></td>
@@ -24,5 +24,7 @@
             <td th:text="${stockp.getStorageCost()}"></td>
         </tr>
     </table>
+<p th:text="'Total storage price: ' + ${invoice.totalStorageCost}+' $'"></p>
+<p th:text="'Calculated at: ' + ${invoice.creationDate}"></p>
 </body>
 </html>

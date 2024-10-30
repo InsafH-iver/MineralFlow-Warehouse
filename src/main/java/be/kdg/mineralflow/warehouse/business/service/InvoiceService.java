@@ -1,13 +1,12 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
-import be.kdg.mineralflow.warehouse.business.domain.Invoice;
-import be.kdg.mineralflow.warehouse.business.domain.InvoiceLine;
-import be.kdg.mineralflow.warehouse.business.domain.Vendor;
-import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.domain.*;
+import be.kdg.mineralflow.warehouse.business.util.mapper.InvoiceMapper;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -26,37 +25,51 @@ public class InvoiceService {
     private final WarehouseRepository warehouseRepository;
     private final InvoiceRepository invoiceRepository;
     private final VendorRepository vendorRepository;
+    private final InvoiceGeneratingService invoiceGeneratingService;
+    private final InvoiceMapper invoiceMapper = InvoiceMapper.INSTANCE;
 
-    public InvoiceService(WarehouseRepository warehouseRepository, InvoiceRepository invoiceRepository, VendorRepository vendorRepository) {
+    public InvoiceService(WarehouseRepository warehouseRepository, InvoiceRepository invoiceRepository, VendorRepository vendorRepository, InvoiceGeneratingService invoiceGeneratingService) {
         this.warehouseRepository = warehouseRepository;
         this.invoiceRepository = invoiceRepository;
         this.vendorRepository = vendorRepository;
+        this.invoiceGeneratingService = invoiceGeneratingService;
     }
 
     @Scheduled(cron = "0 0 9 * * *")
     public void createInvoices(){
         logger.info("InvoiceService: createInvoices has been called");
         LocalDateTime now = LocalDateTime.now();
-
-        List<Warehouse> warehouses = warehouseRepository.findAll();
-        Map<Vendor, List<Warehouse>> warehousesPerVendor = warehouses.stream()
+        List<Warehouse> allWarehouses = warehouseRepository.findAll();
+        Map<Vendor, List<Warehouse>> warehousesPerVendor = allWarehouses.stream()
                 .collect(Collectors.groupingBy(
                         Warehouse::getVendor)
                 );
-        warehousesPerVendor.forEach((v,warehouseList) ->
+        warehousesPerVendor.forEach((vendor,warehouseList) ->
                 invoiceRepository.save(
-                        new Invoice(
-                                now,
-                                v,
-                                warehouseList.stream()
-                                        .flatMap(warehouse -> warehouse.getStockPortions().stream()
-                                                .map(stockPortion -> new InvoiceLine(warehouse.getResource(), stockPortion))
-                                        )
-                                        .collect(Collectors.toList())
-                        )));
+                        createInvoice(now,vendor,warehouseList)
+                )
+        );
+        logger.info("InvoiceService: Invoices have been created");
+    }
+    private Invoice createInvoice(LocalDateTime invoiceDate,Vendor vendor, List<Warehouse> warehouses){
+        return new Invoice(
+                invoiceDate,
+                vendor,
+                createInvoiceLinesFromWarehouses(warehouses)
+        );
+    }
+    private List<InvoiceLine> createInvoiceLinesFromWarehouses(List<Warehouse> warehouses){
+        return warehouses.stream()
+                .flatMap(warehouse -> warehouse.getStockPortions().stream()
+                        .map(stockPortion -> createInvoiceLine(warehouse.getResource(),stockPortion)))
+                .collect(Collectors.toList());
+    }
+    private InvoiceLine createInvoiceLine(Resource resource, StockPortion stockPortion){
+        return new InvoiceLine(resource, stockPortion);
     }
 
-    public Invoice getInvoice(String vendorName, LocalDate date) {
+    public InvoiceDto getInvoice(String vendorName, LocalDate date) {
+        logger.info(String.format("InvoiceService: invoice with vendor %s and date %s was requested",vendorName, date));
         Optional<Vendor> optionalVendor = vendorRepository.findByName(vendorName);
         if (optionalVendor.isEmpty()) {
             String messageException = String.format("No vendor was found for vendor %s", vendorName);
@@ -71,6 +84,9 @@ public class InvoiceService {
             logger.severe(messageException);
             throw new NoItemFoundException(messageException);
         }
-        return optionalInvoice.get();
+        InvoiceDto invoiceDto = invoiceMapper.invoiceToInvoiceDto(optionalInvoice.get());
+        invoiceGeneratingService.generateInvoicePdf(invoiceDto);
+        logger.info(String.format("InvoiceService: invoice with vendor %s and date %s was retrieved",vendorName, date));
+        return invoiceDto;
     }
 }

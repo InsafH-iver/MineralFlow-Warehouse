@@ -1,8 +1,7 @@
-package be.kdg.mineralflow.warehouse.presentation.controller.dto;
+package be.kdg.mineralflow.warehouse.business.util.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 public class InvoiceDto {
     private String vendorName;
@@ -40,18 +39,5 @@ public class InvoiceDto {
 
     public void setInvoiceLines(List<InvoiceLineDto> invoiceLines) {
         this.invoiceLines = invoiceLines;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InvoiceDto that = (InvoiceDto) o;
-        return Double.compare(totalStorageCost, that.totalStorageCost) == 0 && Objects.equals(vendorName, that.vendorName) && Objects.equals(invoiceLines, that.invoiceLines) && Objects.equals(creationDate, that.creationDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(vendorName, invoiceLines, creationDate, totalStorageCost);
     }
 }

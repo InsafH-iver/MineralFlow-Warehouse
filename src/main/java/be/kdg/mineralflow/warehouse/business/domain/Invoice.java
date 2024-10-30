@@ -49,6 +49,7 @@ public class Invoice {
         this.invoiceLines = invoiceLines;
     }
     public double getTotalStorageCost(){
+        if (invoiceLines == null) return 0;
         return invoiceLines.stream()
                 .mapToDouble(invoiceLine -> invoiceLine
                         .getStorageCost(creationDate))

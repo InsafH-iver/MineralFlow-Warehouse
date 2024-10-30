@@ -24,6 +24,7 @@ public class InvoiceLine {
     }
 
     public double getStorageCost(LocalDateTime date){
+        if (stockPortion == null) return 0;
         return stockPortion.getStorageCost(date);
     }
 
