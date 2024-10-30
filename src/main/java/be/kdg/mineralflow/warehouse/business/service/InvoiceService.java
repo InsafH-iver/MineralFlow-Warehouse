@@ -1,12 +1,12 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.business.domain.*;
+import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.business.util.mapper.InvoiceMapper;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

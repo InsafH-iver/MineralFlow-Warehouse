@@ -2,6 +2,8 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
+import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceDto;
+import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceLineDto;
 import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +50,14 @@ class InvoiceServiceTest extends TestContainer {
         invoiceService.createInvoices();
         String vendorName = "Acme Supplies";
         //ACT
-        Invoice invoice = invoiceService.getInvoice(vendorName, today);
+        InvoiceDto invoiceDto = invoiceService.getInvoice(vendorName, today);
         //ASSERT
-        assertThat(invoice).isNotNull();
-        assertThat(invoice.getVendor().getName()).isEqualTo(vendorName);
-        assertThat(LocalDate.from(invoice.getCreationDate())).isEqualTo(today);
-        assertThat(invoice.getInvoiceLines()).isNotEmpty();
-        assertThat(invoice.getTotalStorageCost())
-                .isEqualTo(invoice.getInvoiceLines().stream().mapToDouble(
-                        invoiceLine ->
-                                invoiceLine.getStorageCost(invoice.getCreationDate())).sum());
+        assertThat(invoiceDto).isNotNull();
+        assertThat(invoiceDto.getVendorName()).isEqualTo(vendorName);
+        assertThat(LocalDate.from(invoiceDto.getCreationDate())).isEqualTo(today);
+        assertThat(invoiceDto.getInvoiceLines()).isNotEmpty();
+        assertThat(invoiceDto.getTotalStorageCost())
+                .isEqualTo(invoiceDto.getInvoiceLines().stream().mapToDouble(
+                        InvoiceLineDto::getStorageCost).sum());
     }
 }
