@@ -9,18 +9,6 @@ import java.util.UUID;
 
 @Entity
 public class Vendor {
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -28,5 +16,22 @@ public class Vendor {
     private String address;
 
     protected Vendor() {
+    }
+
+    public Vendor(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

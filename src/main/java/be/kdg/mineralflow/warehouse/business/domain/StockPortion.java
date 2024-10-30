@@ -1,10 +1,8 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -38,8 +36,8 @@ public class StockPortion {
     public double getStorageCostPerTonPerDay() {
         return storageCostPerTonPerDay;
     }
-    public double getStorageCost(ZonedDateTime current){
-        long daysBetween = ChronoUnit.DAYS.between(arrivalTime,current);
+    public double getStorageCost(LocalDateTime current){
+        long daysBetween = ChronoUnit.DAYS.between(LocalDateTime.from(arrivalTime),current);
         return daysBetween * storageCostPerTonPerDay;
     }
 }

@@ -3,12 +3,12 @@ package be.kdg.mineralflow.warehouse.business.domain;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 @Entity
 public class Warehouse {
@@ -24,7 +24,7 @@ public class Warehouse {
     private Resource resource;
     @ManyToOne
     private Vendor vendor;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<StockPortion> stockPortions;
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryTicket> deliveryTickets;
@@ -71,10 +71,6 @@ public class Warehouse {
 
     public List<StockPortion> getStockPortions() {
         return stockPortions;
-    }
-    public double getStorageCost(ZonedDateTime current){
-        return stockPortions.stream()
-                .mapToDouble(s -> s.getStorageCost(current)).sum();
     }
 
     public Vendor getVendor() {

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+</head>
+<body>
+<h1 th:text="'Invoice for ' + ${invoice.getVendorName()}"></h1>
+    <table class="table">
+        <tr>
+            <th>Arrival time</th>
+            <th>Resource</th>
+            <th>Weight (in ton)</th>
+            <th>Storageprice/day/ton</th>
+            <th>Days in storage</th>
+            <th>Total price</th>
+        </tr>
+        <tr th:each="stockp: ${invoice.getInvoiceLines()}">
+            <td th:text="${stockp.getArrivalTime()}"></td>
+            <td th:text="${stockp.getResource()}"></td>
+            <td th:text="${stockp.getWeightInTon()}"></td>
+            <td th:text="${stockp.getStorageCostPerDayPerTon()}"></td>
+            <td th:text="${stockp.getDays()}"></td>
+            <td th:text="${stockp.getStorageCost()}"></td>
+        </tr>
+    </table>
+</body>
+</html>

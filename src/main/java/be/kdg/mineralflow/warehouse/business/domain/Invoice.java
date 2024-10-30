@@ -3,47 +3,55 @@ package be.kdg.mineralflow.warehouse.business.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private ZonedDateTime created;
-    @ManyToMany
-    private List<Warehouse> warehouses;
-
-    public Invoice(ZonedDateTime created, List<Warehouse> warehouses) {
-        this.created = created;
-        this.warehouses = warehouses;
-    }
+    private LocalDateTime creationDate;
+    @ManyToOne
+    private Vendor vendor;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private List<InvoiceLine> invoiceLines;
 
     protected Invoice() {
-
     }
 
+    public Invoice(LocalDateTime creationDate, Vendor vendor, List<InvoiceLine> invoiceLines) {
+        this.creationDate = creationDate;
+        this.vendor = vendor;
+        this.invoiceLines = invoiceLines;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime created) {
+        this.creationDate = created;
+    }
+
+    public List<InvoiceLine> getInvoiceLines() {
+        return invoiceLines;
+    }
+
+    public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
+        this.invoiceLines = invoiceLines;
+    }
     public double getTotalStorageCost(){
-        return warehouses.stream().mapToDouble(w -> w.getStorageCost(created)).sum();
-    }
-
-    public Map<Resource, Double> getStorageCostPerResource(){
-        return warehouses.stream().collect(
-                Collectors.groupingBy(
-                        Warehouse::getResource,
-                        Collectors.summingDouble(w -> w.getStorageCost(created)))
-        );
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+        return invoiceLines.stream()
+                .mapToDouble(invoiceLine -> invoiceLine
+                        .getStorageCost(creationDate))
+                .sum();
     }
 }
