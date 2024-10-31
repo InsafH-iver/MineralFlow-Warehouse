@@ -9,6 +9,13 @@ public class InvoiceDto {
     private LocalDateTime creationDate;
     private double totalStorageCost;
 
+    public InvoiceDto(String vendorName, List<InvoiceLineDto> invoiceLines, LocalDateTime creationDate, double totalStorageCost) {
+        this.vendorName = vendorName;
+        this.invoiceLines = invoiceLines;
+        this.creationDate = creationDate;
+        this.totalStorageCost = totalStorageCost;
+    }
+
     public String getVendorName() {
         return vendorName;
     }

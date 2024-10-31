@@ -10,7 +10,7 @@ public class InvoiceLineDto {
     private long daysInStorage;
     private double storageCost;
 
-    public InvoiceLineDto(LocalDateTime arrivalTime, String resource, double weightInTon, double storageCostPerDayPerTon, int daysInStorage, double storageCost) {
+    public InvoiceLineDto(LocalDateTime arrivalTime, String resource, double weightInTon, double storageCostPerDayPerTon, long daysInStorage, double storageCost) {
         this.arrivalTime = arrivalTime;
         this.resource = resource;
         this.weightInTon = weightInTon;

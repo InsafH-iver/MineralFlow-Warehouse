@@ -3,7 +3,6 @@ package be.kdg.mineralflow.warehouse.business.domain;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +74,6 @@ public class Warehouse {
 
     public Vendor getVendor() {
         return vendor;
-    }
-
-    public Resource getResource() {
-        return resource;
     }
 
     public double getUsedCapacityInTon() {

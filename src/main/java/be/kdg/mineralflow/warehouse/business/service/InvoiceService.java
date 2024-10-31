@@ -1,11 +1,16 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
-import be.kdg.mineralflow.warehouse.business.domain.*;
-import be.kdg.mineralflow.warehouse.business.util.Invoice;
-import be.kdg.mineralflow.warehouse.business.util.InvoiceLine;
+import be.kdg.mineralflow.warehouse.business.domain.Resource;
+import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
+import be.kdg.mineralflow.warehouse.business.domain.Vendor;
+import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.util.invoice.Invoice;
+import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceFactory;
+import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLine;
+import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLineFactory;
+import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
-import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +29,15 @@ public class InvoiceService {
             .getLogger(InvoiceService.class.getName());
     private final WarehouseRepository warehouseRepository;
     private final InvoiceGeneratingService invoiceGeneratingService;
-    private final InvoiceMapper invoiceMapper = InvoiceMapper.INSTANCE;
+    private final InvoiceMapper invoiceMapper;
+    private final InvoiceFactory invoiceFactory;
 
-    public InvoiceService(WarehouseRepository warehouseRepository, InvoiceGeneratingService invoiceGeneratingService) {
+    public InvoiceService(WarehouseRepository warehouseRepository,
+                          InvoiceGeneratingService invoiceGeneratingService, InvoiceMapper invoiceMapper, InvoiceFactory invoiceFactory) {
         this.warehouseRepository = warehouseRepository;
         this.invoiceGeneratingService = invoiceGeneratingService;
+        this.invoiceMapper = invoiceMapper;
+        this.invoiceFactory = invoiceFactory;
     }
 
     @Scheduled(cron = "0 0 9 * * *")
@@ -44,35 +53,17 @@ public class InvoiceService {
         warehousesPerVendor.forEach(
                 (vendor, warehouseList) ->
                 {
-                    Invoice invoice = createInvoice(now.toLocalDateTime(), vendor, warehouseList);
+                    Invoice invoice = invoiceFactory.createInvoice(now.toLocalDateTime(), vendor, warehouseList);
                     saveInvoicePdf(vendor, invoice);
                 }
         );
         logger.info("InvoiceService: Invoices have been created");
     }
 
-    private Invoice createInvoice(LocalDateTime invoiceDate, Vendor vendor, List<Warehouse> warehouses) {
-        return new Invoice(
-                invoiceDate,
-                vendor,
-                createInvoiceLinesFromWarehouses(warehouses)
-        );
-    }
-
-    private List<InvoiceLine> createInvoiceLinesFromWarehouses(List<Warehouse> warehouses) {
-        return warehouses.stream()
-                .flatMap(warehouse -> warehouse.getStockPortions().stream()
-                        .map(stockPortion -> createInvoiceLine(warehouse.getResource(), stockPortion)))
-                .collect(Collectors.toList());
-    }
-
-    private InvoiceLine createInvoiceLine(Resource resource, StockPortion stockPortion) {
-        return new InvoiceLine(resource, stockPortion);
-    }
-
     private void saveInvoicePdf(Vendor vendor, Invoice invoice) {
-        InvoiceDto invoiceDto = invoiceMapper.invoiceToInvoiceDto(invoice);
+        InvoiceDto invoiceDto = invoiceMapper.mapInvoiceToInvoiceDto(vendor, invoice);
         invoiceGeneratingService.generateInvoicePdf(invoiceDto);
         logger.info(String.format("InvoiceService: invoice with vendor %s and date %s was retrieved", vendor.getName(), invoice.getCreationDate()));
     }
+
 }

@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.util;
+package be.kdg.mineralflow.warehouse.business.util.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 
@@ -41,12 +41,5 @@ public class Invoice {
 
     public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
-    }
-    public double getTotalStorageCost(){
-        if (invoiceLines == null) return 0;
-        return invoiceLines.stream()
-                .mapToDouble(invoiceLine -> invoiceLine
-                        .getStorageCost(creationDate))
-                .sum();
     }
 }

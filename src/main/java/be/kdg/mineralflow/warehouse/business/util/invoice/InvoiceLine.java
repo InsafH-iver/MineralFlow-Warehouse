@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.util;
+package be.kdg.mineralflow.warehouse.business.util.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
@@ -15,11 +15,6 @@ public class InvoiceLine {
     public InvoiceLine(Resource resource, StockPortion stockPortion) {
         this.resource = resource;
         this.stockPortion = stockPortion;
-    }
-
-    public double getStorageCost(LocalDateTime date){
-        if (stockPortion == null) return 0;
-        return stockPortion.getStorageCost(date);
     }
     public long getDaysInStorage(LocalDateTime date){
         return stockPortion.getDaysBetween(date);
