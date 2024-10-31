@@ -35,7 +35,22 @@ BEGIN
         123,
         7,
         warehouseMaxCapacityInTon);
+    ------------------------------- stockportions warehouse 2
+    INSERT INTO stock_portion (id, amount_in_ton, storage_cost_per_ton_per_day, arrival_time)
+    VALUES
+        (''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1'', 10.5, 25.00, ''2024-10-01 08:30:00 +00:00''),
+        (''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22'', 15.2, 30.00, ''2024-10-02 09:45:00 +00:00''),
+        (''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643'', 20.0, 22.50, ''2024-10-03 14:00:00 +00:00''),
+        (''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a'', 8.7, 28.75, ''2024-10-04 11:15:00 +00:00''),
+        (''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'', 12.3, 26.50, ''2024-10-05 16:00:00 +00:00'');
 
+    INSERT INTO warehouse_stock_portions (warehouse_id, stock_portions_id)
+    VALUES
+        (''11111111-1111-1111-1111-111111111113'', ''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1''),
+        (''11111111-1111-1111-1111-111111111113'', ''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22''),
+        (''11111111-1111-1111-1111-111111111116'', ''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643''),
+        (''11111111-1111-1111-1111-111111111116'', ''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a''),
+        (''11111111-1111-1111-1111-111111111113'', ''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'');
 END
 '
 ;

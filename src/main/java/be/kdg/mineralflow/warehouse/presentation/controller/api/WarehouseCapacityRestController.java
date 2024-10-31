@@ -22,6 +22,8 @@ public class WarehouseCapacityRestController {
 
     @GetMapping("/{vendorId}/{resourceId}")
     public boolean isWarehouseFull(@PathVariable("vendorId") UUID vendorId, @PathVariable("resourceId") UUID resourceId) {
-        return warehouseCapacityService.isWarehouseFull(vendorId,resourceId);
+        boolean warehouseFull = warehouseCapacityService.isWarehouseFull(vendorId, resourceId);
+        logger.info(String.format("WarehouseCapacityRestController: isWarehouseFull was called and returned %s",warehouseFull));
+        return warehouseFull;
     }
 }

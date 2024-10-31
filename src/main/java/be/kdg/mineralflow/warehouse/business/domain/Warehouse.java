@@ -72,6 +72,10 @@ public class Warehouse {
         return stockPortions;
     }
 
+    public Vendor getVendor() {
+        return vendor;
+    }
+
     public double getUsedCapacityInTon() {
         return usedCapacityInTon;
     }
