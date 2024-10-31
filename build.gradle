@@ -39,6 +39,7 @@ dependencies {
 	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
 	testImplementation "org.testcontainers:postgresql"
 	implementation("org.xhtmlrenderer:flying-saucer-pdf:9.5.1")
+	implementation ("org.apache.pdfbox:pdfbox:2.0.29")
 }
 
 jacocoTestReport {

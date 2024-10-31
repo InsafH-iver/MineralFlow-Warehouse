@@ -3,8 +3,6 @@ package be.kdg.mineralflow.warehouse.business.service;
 import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
-import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
-import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -20,13 +18,11 @@ public class InvoiceService {
     public static final Logger logger = Logger
             .getLogger(InvoiceService.class.getName());
     private final WarehouseRepository warehouseRepository;
-    private final InvoiceRepository invoiceRepository;
     private final InvoiceGeneratingService invoiceGeneratingService;
     private final InvoiceMapper invoiceMapper = InvoiceMapper.INSTANCE;
 
-    public InvoiceService(WarehouseRepository warehouseRepository, InvoiceRepository invoiceRepository, InvoiceGeneratingService invoiceGeneratingService) {
+    public InvoiceService(WarehouseRepository warehouseRepository, InvoiceGeneratingService invoiceGeneratingService) {
         this.warehouseRepository = warehouseRepository;
-        this.invoiceRepository = invoiceRepository;
         this.invoiceGeneratingService = invoiceGeneratingService;
     }
 
@@ -43,7 +39,6 @@ public class InvoiceService {
                 (vendor, warehouseList) ->
                 {
                     Invoice invoice = createInvoice(now, vendor, warehouseList);
-                    invoiceRepository.save(invoice);
                     saveInvoicePdf(vendor, invoice);
                 }
         );

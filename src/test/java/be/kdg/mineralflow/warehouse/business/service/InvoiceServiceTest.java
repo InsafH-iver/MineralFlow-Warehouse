@@ -1,14 +1,15 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
-import be.kdg.mineralflow.warehouse.business.domain.Invoice;
-import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.util.List;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,37 +19,33 @@ class InvoiceServiceTest extends TestContainer {
 
     @Autowired
     private InvoiceService invoiceService;
-    @Autowired
-    private InvoiceRepository invoiceRepository;
 
     @Test
     void createInvoices() {
         //ARRANGE
-        LocalDate today = LocalDate.now();
         String regex = "INV.*\\.pdf";
         Pattern pattern = Pattern.compile(regex);
         //ACT
         invoiceService.createInvoices();
-        List<Invoice> invoices = invoiceRepository.findAll();
-
         //ASSERT
-        assertThat(invoices).isNotEmpty();
-        invoices.forEach(invoice -> assertThat(invoice).isNotNull());
-        invoices.forEach(invoice -> assertThat(invoice.getInvoiceLines()).isNotEmpty());
-        invoices.forEach(invoice -> assertThat(invoice.getVendor()).isNotNull());
-        invoices.forEach(invoice -> assertThat(invoice.getCreationDate()).isNotNull());
-        invoices.forEach(invoice -> assertThat(LocalDate.from(invoice.getCreationDate())).isEqualTo(today));
-        invoices.forEach(
-                invoice ->
-                        assertThat(invoice.getTotalStorageCost())
-                                .isEqualTo(invoice.getInvoiceLines().stream().mapToDouble(
-                                        invoiceLine ->
-                                                invoiceLine.getStorageCost(invoice.getCreationDate())).sum()));
-
         File outputDir = new File(System.getProperty("user.home"));
         File[] matchingFiles = outputDir.listFiles((dir, name) -> pattern.matcher(name).matches());
         assertThat(matchingFiles).isNotNull();
         assertThat(matchingFiles.length).isGreaterThan(0);
         assertThat(matchingFiles[0].length()).isGreaterThan(0);
+        Arrays.stream(matchingFiles).forEach(file -> {
+            try (PDDocument document = PDDocument.load(file)) {
+                PDFTextStripper pdfStripper = new PDFTextStripper();
+                String pdfText = pdfStripper.getText(document);
+                if (pdfText.toLowerCase().contains("acme supplies")) {
+                    assertThat(pdfText).contains("2024-10-01T06:30");
+                    assertThat(pdfText).contains("2024-10-02T07:45");
+                    assertThat(pdfText).contains("2024-10-05T14:00");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 }

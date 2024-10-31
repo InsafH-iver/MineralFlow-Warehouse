@@ -6,15 +6,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+
 public class Invoice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
     private LocalDateTime creationDate;
-    @ManyToOne
     private Vendor vendor;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<InvoiceLine> invoiceLines;
 
     protected Invoice() {

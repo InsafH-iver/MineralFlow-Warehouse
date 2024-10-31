@@ -1,18 +1,9 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Entity
 public class InvoiceLine {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    @ManyToOne
     private Resource resource;
-    @ManyToOne
     private StockPortion stockPortion;
 
     protected InvoiceLine() {
