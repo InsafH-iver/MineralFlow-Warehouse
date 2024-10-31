@@ -1,4 +1,7 @@
-package be.kdg.mineralflow.warehouse.business.domain;
+package be.kdg.mineralflow.warehouse.business.util;
+
+import be.kdg.mineralflow.warehouse.business.domain.Resource;
+import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 
 import java.time.LocalDateTime;
 

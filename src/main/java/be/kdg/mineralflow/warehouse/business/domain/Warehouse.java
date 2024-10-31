@@ -24,7 +24,7 @@ public class Warehouse {
     private Resource resource;
     @ManyToOne
     private Vendor vendor;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<StockPortion> stockPortions;
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryTicket> deliveryTickets;

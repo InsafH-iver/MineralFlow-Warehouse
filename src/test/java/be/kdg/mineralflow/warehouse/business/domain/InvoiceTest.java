@@ -1,6 +1,8 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
+import be.kdg.mineralflow.warehouse.business.util.Invoice;
+import be.kdg.mineralflow.warehouse.business.util.InvoiceLine;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

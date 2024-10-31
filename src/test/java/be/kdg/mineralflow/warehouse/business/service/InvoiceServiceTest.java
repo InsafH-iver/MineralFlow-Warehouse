@@ -9,6 +9,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -38,9 +40,9 @@ class InvoiceServiceTest extends TestContainer {
                 PDFTextStripper pdfStripper = new PDFTextStripper();
                 String pdfText = pdfStripper.getText(document);
                 if (pdfText.toLowerCase().contains("acme supplies")) {
-                    assertThat(pdfText).contains("2024-10-01T06:30");
-                    assertThat(pdfText).contains("2024-10-02T07:45");
-                    assertThat(pdfText).contains("2024-10-05T14:00");
+                    assertThat(pdfText).contains("2024-10-01T08:30");
+                    assertThat(pdfText).contains("2024-10-02T09:45");
+                    assertThat(pdfText).contains("2024-10-05T16:00");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

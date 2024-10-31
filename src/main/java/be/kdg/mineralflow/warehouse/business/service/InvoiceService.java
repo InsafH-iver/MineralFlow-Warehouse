@@ -1,13 +1,18 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.business.domain.*;
+import be.kdg.mineralflow.warehouse.business.util.Invoice;
+import be.kdg.mineralflow.warehouse.business.util.InvoiceLine;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -27,9 +32,10 @@ public class InvoiceService {
     }
 
     @Scheduled(cron = "0 0 9 * * *")
+    @Transactional
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");
-        LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
         List<Warehouse> allWarehouses = warehouseRepository.findAll();
         Map<Vendor, List<Warehouse>> warehousesPerVendor = allWarehouses.stream()
                 .collect(Collectors.groupingBy(
@@ -38,7 +44,7 @@ public class InvoiceService {
         warehousesPerVendor.forEach(
                 (vendor, warehouseList) ->
                 {
-                    Invoice invoice = createInvoice(now, vendor, warehouseList);
+                    Invoice invoice = createInvoice(now.toLocalDateTime(), vendor, warehouseList);
                     saveInvoicePdf(vendor, invoice);
                 }
         );

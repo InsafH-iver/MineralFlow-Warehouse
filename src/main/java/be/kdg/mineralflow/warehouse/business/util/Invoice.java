@@ -1,10 +1,9 @@
-package be.kdg.mineralflow.warehouse.business.domain;
+package be.kdg.mineralflow.warehouse.business.util;
 
-import jakarta.persistence.*;
+import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 
 public class Invoice {
