@@ -29,6 +29,5 @@ public class RabbitTopology {
     @Bean
     public Binding arrivalAtWareHouseBinding(TopicExchange topicExchange, Queue topicQueueHello) {
         return BindingBuilder.bind(topicQueueHello).to(topicExchange).with(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeRoutingKey());
-
     }
 }

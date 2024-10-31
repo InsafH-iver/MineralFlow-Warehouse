@@ -24,10 +24,10 @@ public class TruckArrivalHandler {
     @RabbitListener(queues = "#{@rabbitConfigProperties.truckDepartureFromWeighingBridgeQueue}")
     public void truckArrival(TruckArrivalAtWarehouseDto dto) {
         logger.info(String.format(
-                "Truck arrival event received: Vendor ID: %s, Resource ID: %s, Time of delivery: %s, Weight: %s",
-                dto.vendorId(), dto.resourceId(), dto.deliveryTime(), dto.weight()));
+                "Truck arrival event received: Vendor ID: %s, Resource ID: %s, unloading-request-id: %s, Weight: %s",
+                dto.vendorId(), dto.resourceId(), dto.unloadingRequestId(), dto.weight()));
         stockPortionDeliveryService.handleStockPortionAtDelivery(
-                dto.vendorId(), dto.resourceId(), dto.weight(), dto.deliveryTime());
+                dto.vendorId(), dto.resourceId(), dto.weight(),dto.unloadingRequestId(), dto.endWeightTime());
     }
 
 }
