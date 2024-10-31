@@ -30,7 +30,7 @@ public class InvoiceService {
         this.invoiceGeneratingService = invoiceGeneratingService;
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "0 0 9 * * *")
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");
         LocalDateTime now = LocalDateTime.now();
