@@ -1,6 +1,7 @@
 package be.kdg.mineralflow.warehouse.persistence;
 
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,5 +11,12 @@ import java.util.UUID;
 public interface WarehouseRepository extends JpaRepository<Warehouse, UUID> {
 
     Optional<Warehouse> findFirstByVendorIdAndResourceId(UUID vendorId, UUID resourceId);
-    List<Warehouse> findAllByVendorIdAndResourceId(UUID vendorId,UUID resourceId);
+
+    List<Warehouse> findAllByVendorIdAndResourceId(UUID vendorId, UUID resourceId);
+
+    @EntityGraph(attributePaths = "stockPortions")
+    Optional<Warehouse> findWarehouseWithPortionsById(UUID id);
+
+    @EntityGraph(attributePaths = "deliveryTickets")
+    Optional<Warehouse> findWarehouseWithTicketsById(UUID id);
 }

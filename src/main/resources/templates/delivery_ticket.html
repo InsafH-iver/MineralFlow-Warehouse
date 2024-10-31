@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Weight bridge ticket</title>
+</head>
+<body>
+<h1>Weight bridge ticket</h1>
+<table class="table">
+    <tr>
+        <th>Resource type</th>
+        <th>Time of delivery</th>
+        <th>Number of warehouse</th>
+    </tr>
+    <tr>
+        <td th:text="${deliveryTicket.resourceName}"></td>
+        <td th:text="${#temporals.format(deliveryTicket.deliveryTime, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${deliveryTicket.warehouseNumber}"></td>
+    </tr>
+</table>
+</body>
+</html>

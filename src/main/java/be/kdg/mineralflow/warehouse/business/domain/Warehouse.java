@@ -1,9 +1,7 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
-import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -27,6 +25,8 @@ public class Warehouse {
     private Vendor vendor;
     @OneToMany(cascade = CascadeType.ALL)
     private List<StockPortion> stockPortions;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<DeliveryTicket> deliveryTickets;
 
 
     protected Warehouse() {
@@ -37,6 +37,7 @@ public class Warehouse {
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
         stockPortions = new ArrayList<>();
+        deliveryTickets = new ArrayList<>();
         this.maxCapacityInTon = maxCapacityInTon;
     }
 
@@ -58,7 +59,24 @@ public class Warehouse {
         stockPortions.add(stockPortion);
     }
 
+    public void addDeliveryTicket(ZonedDateTime deliveryTime, UUID unloadingRequest) {
+        DeliveryTicket deliveryTicket = new DeliveryTicket(deliveryTime, unloadingRequest);
+        deliveryTickets.add(deliveryTicket);
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
     public List<StockPortion> getStockPortions() {
         return stockPortions;
+    }
+
+    public double getUsedCapacityInTon() {
+        return usedCapacityInTon;
+    }
+
+    public List<DeliveryTicket> getDeliveryTickets() {
+        return deliveryTickets;
     }
 }
