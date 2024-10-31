@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.util.dto;
+package be.kdg.mineralflow.warehouse.presentation.controller.dto;
 
 import java.time.LocalDateTime;
 

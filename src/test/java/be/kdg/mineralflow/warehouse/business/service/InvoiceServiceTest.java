@@ -2,8 +2,8 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
-import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceDto;
-import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceLineDto;
 import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package be.kdg.mineralflow.warehouse.presentation.controller;
 
 import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
-import be.kdg.mineralflow.warehouse.business.util.dto.InvoiceDto;
-import be.kdg.mineralflow.warehouse.business.util.mapper.InvoiceMapper;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
