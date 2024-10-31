@@ -12,10 +12,4 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
-    @Query(
-            "select i from Invoice i " +
-                "Where Date(i.creationDate) = :date " +
-                    "AND i.vendor = :vendor "
-    )
-    Optional<Invoice> getInvoiceByVendorAndDate(Vendor vendor, LocalDate date);
 }

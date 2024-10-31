@@ -7,15 +7,15 @@ public class InvoiceLineDto {
     private String resource;
     private double weightInTon;
     private double storageCostPerDayPerTon;
-    private int days;
+    private long daysInStorage;
     private double storageCost;
 
-    public InvoiceLineDto(LocalDateTime arrivalTime, String resource, double weightInTon, double storageCostPerDayPerTon, int days, double storageCost) {
+    public InvoiceLineDto(LocalDateTime arrivalTime, String resource, double weightInTon, double storageCostPerDayPerTon, int daysInStorage, double storageCost) {
         this.arrivalTime = arrivalTime;
         this.resource = resource;
         this.weightInTon = weightInTon;
         this.storageCostPerDayPerTon = storageCostPerDayPerTon;
-        this.days = days;
+        this.daysInStorage = daysInStorage;
         this.storageCost = storageCost;
     }
 
@@ -51,12 +51,12 @@ public class InvoiceLineDto {
         this.storageCostPerDayPerTon = storageCostPerDayPerTon;
     }
 
-    public int getDays() {
-        return days;
+    public long getDaysInStorage() {
+        return daysInStorage;
     }
 
-    public void setDays(int days) {
-        this.days = days;
+    public void setDaysInStorage(long daysInStorage) {
+        this.daysInStorage = daysInStorage;
     }
 
     public double getStorageCost() {

@@ -23,6 +23,7 @@ public interface InvoiceMapper {
     @Mapping(source = "stockPortion.amountInTon",target = "weightInTon")
     @Mapping(source = "stockPortion.arrivalTime",target = "arrivalTime")
     @Mapping(source = "resource.name",target = "resource")
+    @Mapping(target = "daysInStorage",ignore = true)
     InvoiceLineDto invoiceLineToInvoiceLineDto(InvoiceLine invoiceLine);
 
     @AfterMapping
@@ -32,6 +33,11 @@ public interface InvoiceMapper {
                     .get(invoiceDTO.getInvoiceLines().indexOf(lineDto))
                     .getStorageCost(invoice.getCreationDate());
             lineDto.setStorageCost(storageCost);
+            long daysInStorage = invoice.getInvoiceLines()
+                    .get(invoiceDTO.getInvoiceLines().indexOf(lineDto))
+                    .getDaysInStorage(invoice.getCreationDate());
+            lineDto.setDaysInStorage(daysInStorage);
+
         });
     }
 }

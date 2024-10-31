@@ -7,5 +7,4 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VendorRepository extends JpaRepository<Vendor, UUID> {
-    Optional<Vendor> findByName(String name);
 }

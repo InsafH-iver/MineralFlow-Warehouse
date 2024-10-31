@@ -32,12 +32,15 @@ public class StockPortion {
     public ZonedDateTime getArrivalTime() {
         return arrivalTime;
     }
+    public long getDaysBetween(LocalDateTime dateTime) {
+        return ChronoUnit.DAYS.between(LocalDateTime.from(arrivalTime),dateTime);
+    }
 
     public double getStorageCostPerTonPerDay() {
         return storageCostPerTonPerDay;
     }
     public double getStorageCost(LocalDateTime current){
-        long daysBetween = ChronoUnit.DAYS.between(LocalDateTime.from(arrivalTime),current);
+        long daysBetween = getDaysBetween(current);
         return daysBetween * storageCostPerTonPerDay;
     }
 }

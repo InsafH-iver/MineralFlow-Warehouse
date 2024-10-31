@@ -27,7 +27,9 @@ public class InvoiceLine {
         if (stockPortion == null) return 0;
         return stockPortion.getStorageCost(date);
     }
-
+    public long getDaysInStorage(LocalDateTime date){
+        return stockPortion.getDaysBetween(date);
+    }
     public Resource getResource() {
         return resource;
     }
