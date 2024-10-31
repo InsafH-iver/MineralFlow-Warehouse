@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
+import be.kdg.mineralflow.warehouse.TestContainer;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +13,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class InvoiceTest {
+class InvoiceTest extends TestContainer {
     @Test
     void getTotalStorageCost() {
         //ARRANGE
