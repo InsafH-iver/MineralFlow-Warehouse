@@ -20,51 +20,36 @@ import java.util.logging.Logger;
 public class PurchaseOrderService {
     public static final Logger logger = Logger
             .getLogger(PurchaseOrderService.class.getName());
-    private final ResourceRepository resourceRepository;
     private final UnitConverter unitConverter;
-    private final VendorRepository vendorRepository;
-    private final BuyerRepository buyerRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
+    private final VendorService vendorService;
+    private final BuyerService buyerService;
+    private final ResourceService resourceService;
 
-    public PurchaseOrderService(ResourceRepository resourceRepository, UnitConverter unitConverter, VendorRepository vendorRepository, BuyerRepository buyerRepository, PurchaseOrderRepository purchaseOrderRepository) {
-        this.resourceRepository = resourceRepository;
+    public PurchaseOrderService(UnitConverter unitConverter, PurchaseOrderRepository purchaseOrderRepository, VendorService vendorService, BuyerService buyerService, ResourceService resourceService) {
         this.unitConverter = unitConverter;
-        this.vendorRepository = vendorRepository;
-        this.buyerRepository = buyerRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
+        this.vendorService = vendorService;
+        this.buyerService = buyerService;
+        this.resourceService = resourceService;
     }
+
 
     @RabbitListener(queues = "purchase_order_queue")
     public void receivePurchaseOrder(PurchaseOrderDto purchaseOrderDto){
         PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrder.setOrderLines(purchaseOrderDto.orderLines().stream().map(this::createOrderLine).toList());
         UUID vendorId = UUID.fromString(purchaseOrderDto.sellerParty().uuid());
-        Optional<Vendor> optionalVendor = vendorRepository.findById(vendorId);
-        if (optionalVendor.isEmpty()) {
-            String messageException = String.format("The Vendor '%s', was not found", vendorId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        purchaseOrder.setVendor(optionalVendor.get());
+        Vendor vendor = vendorService.getVendorById(vendorId);
+        purchaseOrder.setVendor(vendor);
         UUID buyerId = UUID.fromString(purchaseOrderDto.customerParty().uuid());
-        Optional<Buyer> optionalBuyer = buyerRepository.findById(vendorId);
-        if (optionalBuyer.isEmpty()) {
-            String messageException = String.format("The Buyer '%s', was not found", buyerId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        purchaseOrder.setBuyer(optionalBuyer.get());
+        Buyer buyer = buyerService.getBuyerById(buyerId);
+        purchaseOrder.setBuyer(buyer);
 
         purchaseOrderRepository.save(purchaseOrder);
     }
     private OrderLine createOrderLine(OrderLineDto orderLineDto){
-        Optional<Resource> optionalResource = resourceRepository.getResourceByName(orderLineDto.description());
-        if (optionalResource.isEmpty()) {
-            String messageException = String.format("The Resource '%s', was not found", orderLineDto.description());
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        Resource resource = optionalResource.get();
+        Resource resource = resourceService.getResourceByName(orderLineDto.description());
         OrderLine orderLine = new OrderLine();
         orderLine.setResource(resource);
         double amountInTon =calculateAmountInTon(orderLineDto.quantity(),orderLineDto.uom());
