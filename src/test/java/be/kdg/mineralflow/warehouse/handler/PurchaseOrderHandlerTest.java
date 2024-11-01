@@ -40,6 +40,65 @@ class PurchaseOrderHandlerTest extends TestContainer {
         assertThat(result.getBuyer().getName()).isEqualToIgnoringCase(dto.customerParty().name());
     }
 
+    @Test
+    void addPurchaseOrder_should_not_add_purchase_order_when_customer_is_missing() {
+        //ARRANGE
+        PurchaseOrderDto full = generatePurchaseOrderDto();
+        PurchaseOrderDto dto = new PurchaseOrderDto(
+                full.poNumber(),
+                full.referenceUUID(),
+                null,
+                full.sellerParty(),
+                full.vesselNumber(),
+                full.orderLines()
+        );
+        //ACT
+        purchaseOrderHandler.addPurchaseOrder(dto);
+
+        //ASSERT
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        assertThat(purchaseOrders).isEmpty();
+    }
+
+    @Test
+    void addPurchaseOrder_should_not_add_purchase_order_when_orderline_is_empty() {
+        //ARRANGE
+        PurchaseOrderDto full = generatePurchaseOrderDto();
+        PurchaseOrderDto dto = new PurchaseOrderDto(
+                full.poNumber(),
+                full.referenceUUID(),
+                full.customerParty(),
+                full.sellerParty(),
+                full.vesselNumber(),
+                List.of(new OrderLineDto("","","",0,""))
+        );
+        //ACT
+        purchaseOrderHandler.addPurchaseOrder(dto);
+
+        //ASSERT
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        assertThat(purchaseOrders).isEmpty();
+    }
+    @Test
+    void addPurchaseOrder_should_not_add_purchase_order_when_vessekNumber_is_missing() {
+        //ARRANGE
+        PurchaseOrderDto full = generatePurchaseOrderDto();
+        PurchaseOrderDto dto = new PurchaseOrderDto(
+                full.poNumber(),
+                full.referenceUUID(),
+                full.customerParty(),
+                full.sellerParty(),
+                "",
+                List.of(new OrderLineDto("","","",0,""))
+        );
+        //ACT
+        purchaseOrderHandler.addPurchaseOrder(dto);
+
+        //ASSERT
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        assertThat(purchaseOrders).isEmpty();
+    }
+
     private static @NotNull PurchaseOrderDto generatePurchaseOrderDto() {
         String sellerUUID = "b33df3fe-71be-4c00-94fc-20f4b83dfe12";
         String buyerUUID = "56efaea4-953c-44bf-9f41-9700fffa2f28";
