@@ -2,17 +2,12 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.util.UnitConverter;
-import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
-import be.kdg.mineralflow.warehouse.persistence.BuyerRepository;
 import be.kdg.mineralflow.warehouse.persistence.PurchaseOrderRepository;
-import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
-import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -34,31 +29,33 @@ public class PurchaseOrderService {
         this.resourceService = resourceService;
     }
 
-
-    @RabbitListener(queues = "purchase_order_queue")
-    public void receivePurchaseOrder(PurchaseOrderDto purchaseOrderDto){
+    public void addPurchaseOrder(@Valid PurchaseOrderDto purchaseOrderDto){
+        logger.info(String.format("addPurchaseOrder was called with purchaseOrderDto %s",purchaseOrderDto));
         PurchaseOrder purchaseOrder = new PurchaseOrder();
-        purchaseOrder.setOrderLines(purchaseOrderDto.orderLines().stream().map(this::createOrderLine).toList());
+        /*
+        purchaseOrder.setOrderLines(
+                purchaseOrderDto.orderLines().stream()
+                        .map(this::createOrderLine).toList());
+
         UUID vendorId = UUID.fromString(purchaseOrderDto.sellerParty().uuid());
         Vendor vendor = vendorService.getVendorById(vendorId);
         purchaseOrder.setVendor(vendor);
+
         UUID buyerId = UUID.fromString(purchaseOrderDto.customerParty().uuid());
         Buyer buyer = buyerService.getBuyerById(buyerId);
         purchaseOrder.setBuyer(buyer);
 
         purchaseOrderRepository.save(purchaseOrder);
+
+         */
     }
     private OrderLine createOrderLine(OrderLineDto orderLineDto){
         Resource resource = resourceService.getResourceByName(orderLineDto.description());
         OrderLine orderLine = new OrderLine();
         orderLine.setResource(resource);
-        double amountInTon =calculateAmountInTon(orderLineDto.quantity(),orderLineDto.uom());
+        double amountInTon =unitConverter.convertToTonnes(orderLineDto.quantity(),orderLineDto.uom());
         orderLine.setAmountInTon(amountInTon);
         orderLine.setSellingPricePerTon(resource.getSellingPricePerTon());
         return orderLine;
-    }
-
-    private double calculateAmountInTon(int quantity, String uom) {
-        return unitConverter.convertToTonnes(quantity,uom);
     }
 }

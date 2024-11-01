@@ -1,10 +1,8 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.business.domain.Buyer;
-import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.BuyerRepository;
-import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
