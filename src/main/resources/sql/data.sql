@@ -47,6 +47,25 @@ BEGIN
         (''22222222-2222-2222-2222-222222222224'', ''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643''),
         (''22222222-2222-2222-2222-222222222224'', ''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a''),
         (''11111111-1111-1111-1111-111111111113'', ''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'');
+
+
+----------------------------setup for PO
+    -- Insert Resources
+    INSERT INTO resource (id, name, description, selling_price_per_ton, storage_price_per_ton_per_day) VALUES
+        (''d1e8481c-1e3c-4d04-a5f6-7f12f8dff6c7'', ''petcoke'', ''High-quality petroleum coke'', 150.00, 1.50),
+        (''d2e8481c-1e3c-4d04-a5f6-7f12f8dff6c8'', ''slak'', ''Byproduct from metal production'', 120.00, 1.20);
+
+    -- Insert Customer (Buyer)
+    INSERT INTO buyer (id, name, address) VALUES (''56efaea4-953c-44bf-9f41-9700fffa2f28'',
+        ''Joske Vermeulen'',
+        ''Trammesantlei 122, Schoten, Belgium'');
+
+    -- Insert Vendor
+    INSERT INTO vendor (id, name, address) VALUES (''b33df3fe-71be-4c00-94fc-20f4b83dfe12'',
+        ''De klant van KDG'',
+        ''Het adres van de klant van KDG'');
+----------------------------
+
 END
 '
 ;

@@ -1,8 +1,6 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,8 +8,10 @@ import java.util.UUID;
 @Entity
 public class Buyer {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
+    private String name;
+    private String address;
     @OneToMany
     private List<PurchaseOrder> purchaseOrders;
 
@@ -30,5 +30,21 @@ public class Buyer {
 
     public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
         this.purchaseOrders = purchaseOrders;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

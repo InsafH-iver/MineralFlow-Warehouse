@@ -5,7 +5,6 @@ import be.kdg.mineralflow.warehouse.business.util.UnitConverter;
 import be.kdg.mineralflow.warehouse.persistence.PurchaseOrderRepository;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -29,28 +28,26 @@ public class PurchaseOrderService {
         this.resourceService = resourceService;
     }
 
-    public void addPurchaseOrder(@Valid PurchaseOrderDto purchaseOrderDto){
+    public void addPurchaseOrder(PurchaseOrderDto purchaseOrderDto){
         logger.info(String.format("addPurchaseOrder was called with purchaseOrderDto %s",purchaseOrderDto));
         PurchaseOrder purchaseOrder = new PurchaseOrder();
-        /*
         purchaseOrder.setOrderLines(
                 purchaseOrderDto.orderLines().stream()
                         .map(this::createOrderLine).toList());
 
-        UUID vendorId = UUID.fromString(purchaseOrderDto.sellerParty().uuid());
+        UUID vendorId = UUID.fromString(purchaseOrderDto.sellerParty().UUID());
         Vendor vendor = vendorService.getVendorById(vendorId);
         purchaseOrder.setVendor(vendor);
 
-        UUID buyerId = UUID.fromString(purchaseOrderDto.customerParty().uuid());
+        UUID buyerId = UUID.fromString(purchaseOrderDto.customerParty().UUID());
         Buyer buyer = buyerService.getBuyerById(buyerId);
         purchaseOrder.setBuyer(buyer);
+        purchaseOrder.setPoNumber(purchaseOrderDto.poNumber());
 
         purchaseOrderRepository.save(purchaseOrder);
-
-         */
     }
     private OrderLine createOrderLine(OrderLineDto orderLineDto){
-        Resource resource = resourceService.getResourceByName(orderLineDto.description());
+        Resource resource = resourceService.getResourceByName(orderLineDto.description().toLowerCase());
         OrderLine orderLine = new OrderLine();
         orderLine.setResource(resource);
         double amountInTon =unitConverter.convertToTonnes(orderLineDto.quantity(),orderLineDto.uom());

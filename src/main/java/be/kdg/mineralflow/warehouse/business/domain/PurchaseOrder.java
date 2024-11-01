@@ -1,9 +1,6 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +8,10 @@ import java.util.UUID;
 @Entity
 public class PurchaseOrder {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-
-    @OneToMany
+    private String poNumber;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<OrderLine> orderLines;
 
     @ManyToOne
@@ -52,5 +50,13 @@ public class PurchaseOrder {
 
     public void setBuyer(Buyer buyer) {
         this.buyer = buyer;
+    }
+
+    public void setPoNumber(String poNumber) {
+        this.poNumber = poNumber;
+    }
+
+    public String getPoNumber() {
+        return poNumber;
     }
 }

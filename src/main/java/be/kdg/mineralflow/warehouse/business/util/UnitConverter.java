@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 public class UnitConverter {
     public double convertToTonnes(double quantity, @NotBlank String uom) {
         return switch (uom.toLowerCase()) {
+            case "t" ->
+                    quantity;
             case "mt" ->// Megatonnes
                     quantity * 1_000_000;
             case "kt" -> // Kilotonnes
