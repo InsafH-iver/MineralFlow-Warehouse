@@ -1,14 +1,20 @@
-package be.kdg.mineralflow.warehouse.business.util.invoice;
+package be.kdg.mineralflow.warehouse.business.domain;
 
-import be.kdg.mineralflow.warehouse.business.domain.Resource;
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@Entity
 public class InvoiceLine {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
+    @ManyToOne
     private Resource resource;
+    @ManyToOne
     private StockPortion stockPortion;
-
     protected InvoiceLine() {
     }
 
@@ -25,5 +31,13 @@ public class InvoiceLine {
 
     public StockPortion getStockPortion() {
         return stockPortion;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

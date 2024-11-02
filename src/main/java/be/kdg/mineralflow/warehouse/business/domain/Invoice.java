@@ -1,15 +1,24 @@
-package be.kdg.mineralflow.warehouse.business.util.invoice;
+package be.kdg.mineralflow.warehouse.business.domain;
 
-import be.kdg.mineralflow.warehouse.business.domain.Vendor;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
-
+@Entity
 public class Invoice {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private LocalDateTime creationDate;
+    @ManyToOne
     private Vendor vendor;
+    @OneToMany(cascade = CascadeType.ALL)
     private List<InvoiceLine> invoiceLines;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Commission> commissions;
 
     protected Invoice() {
     }
@@ -27,6 +36,7 @@ public class Invoice {
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
     }
+
     public LocalDateTime getCreationDate() {
         return creationDate;
     }
@@ -41,5 +51,20 @@ public class Invoice {
 
     public void setInvoiceLines(List<InvoiceLine> invoiceLines) {
         this.invoiceLines = invoiceLines;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+    public void addCommission(Commission commission){
+        commissions.add(commission);
+    }
+
+    public List<Commission> getCommissions() {
+        return commissions;
     }
 }

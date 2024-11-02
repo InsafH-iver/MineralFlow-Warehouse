@@ -2,20 +2,22 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
-import be.kdg.mineralflow.warehouse.business.service.pdf.InvoiceGeneratingService;
-import be.kdg.mineralflow.warehouse.business.util.invoice.Invoice;
+import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceFactory;
+import be.kdg.mineralflow.warehouse.persistence.InvoiceRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -27,16 +29,20 @@ public class InvoiceService {
     private final InvoiceGeneratingService invoiceGeneratingService;
     private final InvoiceMapper invoiceMapper;
     private final InvoiceFactory invoiceFactory;
+    private final InvoiceRepository invoiceRepository;
+    private final CommissionService commissionService;
 
     public InvoiceService(WarehouseRepository warehouseRepository,
-                          InvoiceGeneratingService invoiceGeneratingService, InvoiceMapper invoiceMapper, InvoiceFactory invoiceFactory) {
+                          InvoiceGeneratingService invoiceGeneratingService, InvoiceMapper invoiceMapper, InvoiceFactory invoiceFactory, InvoiceRepository invoiceRepository, CommissionService commissionService) {
         this.warehouseRepository = warehouseRepository;
         this.invoiceGeneratingService = invoiceGeneratingService;
         this.invoiceMapper = invoiceMapper;
         this.invoiceFactory = invoiceFactory;
+        this.invoiceRepository = invoiceRepository;
+        this.commissionService = commissionService;
     }
 
-    @Scheduled(cron = "0 0 9 * * *")
+    @Scheduled(cron = "*/5 * * * * *")
     @Transactional
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");
@@ -50,6 +56,7 @@ public class InvoiceService {
                 (vendor, warehouseList) ->
                 {
                     Invoice invoice = invoiceFactory.createInvoice(now.toLocalDateTime(), vendor, warehouseList);
+                    invoiceRepository.save(invoice);
                     saveInvoicePdf(vendor, invoice);
                 }
         );
@@ -57,9 +64,12 @@ public class InvoiceService {
     }
 
     private void saveInvoicePdf(Vendor vendor, Invoice invoice) {
-        InvoiceDto invoiceDto = invoiceMapper.mapInvoiceToInvoiceDto(vendor, invoice);
+        InvoiceDto invoiceDto = invoiceMapper.mapInvoiceToInvoiceDto(invoice);
         invoiceGeneratingService.generateInvoicePdf(invoiceDto);
         logger.info(String.format("InvoiceService: invoice with vendor %s and date %s was retrieved", vendor.getName(), invoice.getCreationDate()));
     }
 
+    public Invoice getInvoice(UUID vendorId, LocalDateTime dateTime) {
+        return invoiceRepository.getInvoiceByVendorIdAndCreationDate(vendorId,dateTime.toLocalDate());
+    }
 }

@@ -1,8 +1,9 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.mapper;
 
+import be.kdg.mineralflow.warehouse.business.domain.Commission;
 import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
-import be.kdg.mineralflow.warehouse.business.util.invoice.Invoice;
+import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.util.storageCost.StorageCostCalculator;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceLineDto;
@@ -17,14 +18,18 @@ public class InvoiceMapper {
     public InvoiceMapper(StorageCostCalculator storageCostCalculator) {
         this.storageCostCalculator = storageCostCalculator;
     }
-    public InvoiceDto mapInvoiceToInvoiceDto(Vendor vendor, Invoice invoice) {
+    public InvoiceDto mapInvoiceToInvoiceDto(Invoice invoice) {
         List<InvoiceLineDto> invoiceLines = createInvoiceLineDtos(invoice);
         double totalStorageCost = invoiceLines.stream().mapToDouble(InvoiceLineDto::getStorageCost).sum();
+        double commissionCost = (invoice.getCommissions() == null)? 0 :
+                invoice.getCommissions().stream().mapToDouble(Commission::getCommisionPrice).sum();
+
         return new InvoiceDto(
-                vendor.getName(),
+                invoice.getVendor().getName(),
                 invoiceLines,
                 invoice.getCreationDate(),
-                totalStorageCost
+                totalStorageCost,
+                commissionCost
         );
     }
     private List<InvoiceLineDto> createInvoiceLineDtos(Invoice invoice) {
