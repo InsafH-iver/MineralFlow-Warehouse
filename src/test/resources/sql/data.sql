@@ -62,4 +62,22 @@ values ('11111111-1111-1111-1111-111111111130',
 
 INSERT INTO warehouse_delivery_tickets(delivery_tickets_id, warehouse_id)
 values ('11111111-1111-1111-1111-111111111130',
-        '11111111-1111-1111-1111-111111111122')
+        '11111111-1111-1111-1111-111111111122');
+
+
+----------------------------setup for PO
+-- Insert Resources
+INSERT INTO resource (id, name, description, selling_price_per_ton, storage_price_per_ton_per_day) VALUES
+                                                                                                       ('d1e8481c-1e3c-4d04-a5f6-7f12f8dff6c7', 'testmaterial', 'High-quality petroleum coke', 150.00, 1.50),
+                                                                                                       ('d2e8481c-1e3c-4d04-a5f6-7f12f8dff6c8', 'nogtestmateriaal', 'Byproduct from metal production', 120.00, 1.20);
+
+-- Insert Customer (Buyer)
+INSERT INTO buyer (id, name, address) VALUES ('56efaea4-953c-44bf-9f41-9700fffa2f28',
+                                              'buyer',
+                                              'somewhere over the rainbow');
+
+-- Insert Vendor
+INSERT INTO vendor (id, name, address) VALUES ('b33df3fe-71be-4c00-94fc-20f4b83dfe12',
+                                               'seller',
+                                               'somewhere before the rainbow');
+----------------------------

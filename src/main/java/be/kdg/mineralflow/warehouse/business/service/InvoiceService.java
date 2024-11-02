@@ -1,13 +1,9 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
-import be.kdg.mineralflow.warehouse.business.domain.Resource;
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
 import be.kdg.mineralflow.warehouse.business.util.invoice.Invoice;
 import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceFactory;
-import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLine;
-import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLineFactory;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
@@ -15,7 +11,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;

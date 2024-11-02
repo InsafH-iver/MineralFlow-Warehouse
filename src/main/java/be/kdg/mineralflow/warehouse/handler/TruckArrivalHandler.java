@@ -21,6 +21,7 @@ public class TruckArrivalHandler {
         this.stockPortionDeliveryService = stockPortionDeliveryService;
     }
 
+
     @RabbitListener(queues = "#{@rabbitConfigProperties.truckDepartureFromWeighingBridgeQueue}")
     public void truckArrival(TruckArrivalAtWarehouseDto dto) {
         logger.info(String.format(
