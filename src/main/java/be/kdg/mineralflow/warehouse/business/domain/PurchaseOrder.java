@@ -23,6 +23,17 @@ public class PurchaseOrder {
     @ManyToOne
     private Buyer buyer;
 
+    public PurchaseOrder() {
+    }
+
+    public PurchaseOrder(String poNumber, String vesselNumber, Status status, List<OrderLine> orderLines, Vendor vendor, Buyer buyer) {
+        this.poNumber = poNumber;
+        this.vesselNumber = vesselNumber;
+        this.status = status;
+        this.orderLines = orderLines;
+        this.vendor = vendor;
+        this.buyer = buyer;
+    }
 
     public PurchaseOrder() {
     }

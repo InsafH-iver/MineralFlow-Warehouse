@@ -42,7 +42,7 @@ public class InvoiceService {
         this.commissionService = commissionService;
     }
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "0 0 9 * * *")
     @Transactional
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");

@@ -143,7 +143,7 @@ class AddingPurchaseOrderHandlerTest extends TestContainer {
         assertThat(purchaseOrders).isEmpty();
     }
 
-    private static @NotNull PurchaseOrderDto generatePurchaseOrderDto() {
+    private static PurchaseOrderDto generatePurchaseOrderDto() {
         String sellerUUID = "b33df3fe-71be-4c00-94fc-20f4b83dfe12";
         String buyerUUID = "56efaea4-953c-44bf-9f41-9700fffa2f28";
         return new PurchaseOrderDto(

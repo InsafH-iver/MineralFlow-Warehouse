@@ -12,9 +12,14 @@ public class Buyer {
     private UUID id;
     private String name;
     private String address;
-    @OneToMany
-    private List<PurchaseOrder> purchaseOrders;
 
+    protected Buyer() {
+    }
+
+    public Buyer(String address, String name) {
+        this.address = address;
+        this.name = name;
+    }
 
     public UUID getId() {
         return id;
@@ -22,14 +27,6 @@ public class Buyer {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public List<PurchaseOrder> getPurchaseOrders() {
-        return purchaseOrders;
-    }
-
-    public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
-        this.purchaseOrders = purchaseOrders;
     }
 
     public String getName() {
