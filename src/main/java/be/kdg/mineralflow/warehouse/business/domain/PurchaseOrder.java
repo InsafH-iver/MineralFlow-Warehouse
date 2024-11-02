@@ -11,6 +11,8 @@ public class PurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
+    @Column(unique = true)
     private String poNumber;
     private String vesselNumber;
     private Status status;

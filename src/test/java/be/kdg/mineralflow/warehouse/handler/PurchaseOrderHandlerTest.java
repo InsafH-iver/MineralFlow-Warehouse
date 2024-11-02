@@ -27,8 +27,37 @@ class PurchaseOrderHandlerTest extends TestContainer {
     void addPurchaseOrder_should_add_purchase_order() {
         //ARRANGE
         PurchaseOrderDto dto = generatePurchaseOrderDto();
+        List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dto);
+        purchaseOrderHandler.addPurchaseOrder(dtos);
+
+        //ASSERT
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        assertThat(purchaseOrders).isNotNull().isNotEmpty();
+        assertThat(purchaseOrders.stream().filter(purchaseOrder -> purchaseOrder.getPoNumber().equalsIgnoreCase(dto.poNumber())).findFirst()).isNotEmpty();
+        PurchaseOrder result = purchaseOrders.stream().filter(purchaseOrder -> purchaseOrder.getPoNumber().equalsIgnoreCase(dto.poNumber())).findFirst().get();
+        assertThat(result.getId()).isNotNull();
+        assertThat(result.getOrderLines().size()).isEqualTo(2);
+        assertThat(result.getVendor().getName()).isEqualToIgnoringCase(dto.sellerParty().name());
+        assertThat(result.getBuyer().getName()).isEqualToIgnoringCase(dto.customerParty().name());
+        assertThat(result.getVesselNumber()).isEqualToIgnoringCase(dto.vesselNumber());
+        assertThat(
+                result.getOrderLines()
+                        .stream().flatMap(orderLine ->
+                                dto.orderLines().stream().map(orderLineDto ->
+                                        orderLine.getResource().getName().equalsIgnoreCase(orderLineDto.description())
+                                )
+                        ).distinct().toList()
+        ).contains(true);
+    }
+    @Transactional
+    @Test
+    void addPurchaseOrder_should_add_purchase_orders() {
+        //ARRANGE
+        PurchaseOrderDto dto = generatePurchaseOrderDto();
+        List<PurchaseOrderDto> dtos = List.of(dto);
+        //ACT
+        purchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -62,8 +91,9 @@ class PurchaseOrderHandlerTest extends TestContainer {
                 full.vesselNumber(),
                 full.orderLines()
         );
+        List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dto);
+        purchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -82,8 +112,9 @@ class PurchaseOrderHandlerTest extends TestContainer {
                 full.vesselNumber(),
                 List.of(new OrderLineDto("", "", "", 0, ""))
         );
+        List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dto);
+        purchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -102,8 +133,9 @@ class PurchaseOrderHandlerTest extends TestContainer {
                 "",
                 full.orderLines()
         );
+        List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dto);
+        purchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
