@@ -9,6 +9,8 @@ public class RabbitConfigProperties {
     private String exchangeName;
     private String truckDepartureFromWeighingBridgeRoutingKey;
     private String truckDepartureFromWeighingBridgeQueue;
+    private String addPurchaseOrderRoutingKey;
+    private String addPurchaseOrderQueue;
 
     public String getTruckDepartureFromWeighingBridgeQueue() {
         return truckDepartureFromWeighingBridgeQueue;
@@ -32,5 +34,21 @@ public class RabbitConfigProperties {
 
     public void setTruckDepartureFromWeighingBridgeQueue(String truckDepartureFromWeighingBridgeQueue) {
         this.truckDepartureFromWeighingBridgeQueue = truckDepartureFromWeighingBridgeQueue;
+    }
+
+    public String getAddPurchaseOrderRoutingKey() {
+        return addPurchaseOrderRoutingKey;
+    }
+
+    public void setAddPurchaseOrderRoutingKey(String addPurchaseOrderRoutingKey) {
+        this.addPurchaseOrderRoutingKey = addPurchaseOrderRoutingKey;
+    }
+
+    public String getAddPurchaseOrderQueue() {
+        return addPurchaseOrderQueue;
+    }
+
+    public void setAddPurchaseOrderQueue(String addPurchaseOrderQueue) {
+        this.addPurchaseOrderQueue = addPurchaseOrderQueue;
     }
 }
