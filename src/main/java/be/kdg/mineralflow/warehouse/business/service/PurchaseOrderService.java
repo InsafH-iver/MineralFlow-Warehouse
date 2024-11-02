@@ -43,6 +43,7 @@ public class PurchaseOrderService {
         Buyer buyer = buyerService.getBuyerById(buyerId);
         purchaseOrder.setBuyer(buyer);
         purchaseOrder.setPoNumber(purchaseOrderDto.poNumber());
+        purchaseOrder.setVesselNumber(purchaseOrderDto.vesselNumber());
 
         purchaseOrderRepository.save(purchaseOrder);
     }

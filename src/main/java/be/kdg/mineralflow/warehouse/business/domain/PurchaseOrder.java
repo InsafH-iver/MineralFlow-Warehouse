@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
+import be.kdg.mineralflow.warehouse.business.util.Status;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -11,6 +12,8 @@ public class PurchaseOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String poNumber;
+    private String vesselNumber;
+    private Status status;
     @OneToMany(cascade = CascadeType.ALL)
     private List<OrderLine> orderLines;
 
@@ -58,5 +61,21 @@ public class PurchaseOrder {
 
     public String getPoNumber() {
         return poNumber;
+    }
+
+    public String getVesselNumber() {
+        return vesselNumber;
+    }
+
+    public void setVesselNumber(String vesselNumber) {
+        this.vesselNumber = vesselNumber;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

@@ -21,6 +21,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
     private PurchaseOrderHandler purchaseOrderHandler;
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
+
     @Transactional
     @Test
     void addPurchaseOrder_should_add_purchase_order() {
@@ -38,6 +39,15 @@ class PurchaseOrderHandlerTest extends TestContainer {
         assertThat(result.getOrderLines().size()).isEqualTo(2);
         assertThat(result.getVendor().getName()).isEqualToIgnoringCase(dto.sellerParty().name());
         assertThat(result.getBuyer().getName()).isEqualToIgnoringCase(dto.customerParty().name());
+        assertThat(result.getVesselNumber()).isEqualToIgnoringCase(dto.vesselNumber());
+        assertThat(
+                result.getOrderLines()
+                        .stream().flatMap(orderLine ->
+                                dto.orderLines().stream().map(orderLineDto ->
+                                        orderLine.getResource().getName().equalsIgnoreCase(orderLineDto.description())
+                                )
+                        ).distinct().toList()
+        ).contains(true);
     }
 
     @Test
@@ -70,7 +80,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
                 full.customerParty(),
                 full.sellerParty(),
                 full.vesselNumber(),
-                List.of(new OrderLineDto("","","",0,""))
+                List.of(new OrderLineDto("", "", "", 0, ""))
         );
         //ACT
         purchaseOrderHandler.addPurchaseOrder(dto);
@@ -79,6 +89,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
         assertThat(purchaseOrders).isEmpty();
     }
+
     @Test
     void addPurchaseOrder_should_not_add_purchase_order_when_vessekNumber_is_missing() {
         //ARRANGE
@@ -89,7 +100,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
                 full.customerParty(),
                 full.sellerParty(),
                 "",
-                List.of(new OrderLineDto("","","",0,""))
+                full.orderLines()
         );
         //ACT
         purchaseOrderHandler.addPurchaseOrder(dto);
@@ -122,7 +133,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
                         "TestMaterial",
                         100,
                         "t"
-                ),new OrderLineDto(
+                ), new OrderLineDto(
                         "2",
                         "TM",
                         "TestMaterial",
