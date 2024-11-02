@@ -24,7 +24,6 @@ class AddingPurchaseOrderHandlerTest extends TestContainer {
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
 
-    @Transactional
     @Test
     void addPurchaseOrder_should_add_purchase_order() {
         //ARRANGE
