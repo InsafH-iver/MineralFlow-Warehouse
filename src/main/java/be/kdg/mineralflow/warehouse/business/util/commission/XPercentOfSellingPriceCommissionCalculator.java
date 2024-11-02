@@ -19,6 +19,7 @@ public class XPercentOfSellingPriceCommissionCalculator implements CommissionCos
 
     @Override
     public double calculateCommissionCost(List<OrderLine> orderLines) {
+        if (orderLines == null) return 0;
         double commission = orderLines.stream()
                 .mapToDouble(orderLine->
                         orderLine.getAmountInTon() * orderLine.getSellingPricePerTon()).sum()

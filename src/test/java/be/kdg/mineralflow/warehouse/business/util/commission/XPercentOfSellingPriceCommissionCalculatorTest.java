@@ -7,8 +7,7 @@ import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,5 +38,25 @@ class XPercentOfSellingPriceCommissionCalculatorTest extends TestContainer {
                                 * orderLine1.getAmountInTon()
                                 + orderLine2.getAmountInTon()
                                 * orderLine2.getSellingPricePerTon()) * configProperties.getCommissionPart());
+    }
+    @Test
+    void calculateCommissionCost_should_return_zero_when_orderLines_are_empty() {
+        //ARRANGE
+        List<OrderLine> orderLines = List.of();
+
+        //ACT
+        double commissionCost = calculator.calculateCommissionCost(orderLines);
+        //ASSERT
+        assertThat(commissionCost).isEqualTo(0);
+    }
+    @Test
+    void calculateCommissionCost_should_return_zero_when_orderLines_are_null() {
+        //ARRANGE
+        List<OrderLine> orderLines = null;
+
+        //ACT
+        double commissionCost = calculator.calculateCommissionCost(orderLines);
+        //ASSERT
+        assertThat(commissionCost).isEqualTo(0);
     }
 }
