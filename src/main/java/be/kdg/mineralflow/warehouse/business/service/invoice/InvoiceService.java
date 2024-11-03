@@ -1,9 +1,9 @@
 package be.kdg.mineralflow.warehouse.business.service.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
+import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
-import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.service.pdf.InvoiceGeneratingService;
 import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceFactory;
@@ -34,7 +34,6 @@ public class InvoiceService {
     private final InvoiceMapper invoiceMapper;
     private final InvoiceFactory invoiceFactory;
     private final InvoiceRepository invoiceRepository;
-    private final CommissionService commissionService;
     private final CommissionRepository commissionRepository;
 
     public InvoiceService(WarehouseRepository warehouseRepository,
