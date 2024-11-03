@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
-import be.kdg.mineralflow.warehouse.business.service.WarehouseCapacityService;
+import be.kdg.mineralflow.warehouse.business.service.warehouse.WarehouseCapacityService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

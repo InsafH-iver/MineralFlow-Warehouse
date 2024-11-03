@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.presentation.controller.dto;
+package be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

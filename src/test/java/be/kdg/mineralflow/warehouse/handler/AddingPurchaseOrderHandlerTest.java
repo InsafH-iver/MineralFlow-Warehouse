@@ -2,23 +2,25 @@ package be.kdg.mineralflow.warehouse.handler;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
-import be.kdg.mineralflow.warehouse.persistence.PurchaseOrderRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
+import be.kdg.mineralflow.warehouse.handler.purchase.order.AddingPurchaseOrderHandler;
+import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PartyDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrderDto;
 import jakarta.transaction.Transactional;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PurchaseOrderHandlerTest extends TestContainer {
+class AddingPurchaseOrderHandlerTest extends TestContainer {
 
     @Autowired
-    private PurchaseOrderHandler purchaseOrderHandler;
+    private AddingPurchaseOrderHandler addingPurchaseOrderHandler;
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
 
@@ -29,7 +31,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
         PurchaseOrderDto dto = generatePurchaseOrderDto();
         List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dtos);
+        addingPurchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -57,7 +59,7 @@ class PurchaseOrderHandlerTest extends TestContainer {
         PurchaseOrderDto dto = generatePurchaseOrderDto();
         List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dtos);
+        addingPurchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -93,10 +95,10 @@ class PurchaseOrderHandlerTest extends TestContainer {
         );
         List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dtos);
+        addingPurchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
-        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        Optional<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findPurchaseOrderByPurchaseOrderNumber(full.poNumber());
         assertThat(purchaseOrders).isEmpty();
     }
 
@@ -114,10 +116,10 @@ class PurchaseOrderHandlerTest extends TestContainer {
         );
         List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dtos);
+        addingPurchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
-        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        Optional<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findPurchaseOrderByPurchaseOrderNumber(full.poNumber());
         assertThat(purchaseOrders).isEmpty();
     }
 
@@ -135,10 +137,10 @@ class PurchaseOrderHandlerTest extends TestContainer {
         );
         List<PurchaseOrderDto> dtos = List.of(dto);
         //ACT
-        purchaseOrderHandler.addPurchaseOrder(dtos);
+        addingPurchaseOrderHandler.addPurchaseOrder(dtos);
 
         //ASSERT
-        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+        Optional<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findPurchaseOrderByPurchaseOrderNumber(full.poNumber());
         assertThat(purchaseOrders).isEmpty();
     }
 

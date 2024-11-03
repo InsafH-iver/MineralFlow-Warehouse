@@ -1,3 +1,8 @@
+INSERT INTO Vendor (id, name)
+VALUES ('33333333-1111-1111-1111-111111111200', 'johnson & Johnson');
+INSERT INTO resource (id, name, selling_price_per_ton, storage_price_per_ton_per_day)
+VALUES ('33333333-1111-1111-1111-111111111201', 'Fentanyl', 1000, 13);
+
 DO
 '
 DECLARE
@@ -34,15 +39,21 @@ BEGIN
         ''11111111-1111-1111-1111-111111111121'',
         123,
         7,
+        warehouseMaxCapacityInTon),
+        (''33333333-1111-1111-1111-111111111202'',
+        ''33333333-1111-1111-1111-111111111201'', -- resource_id (UUID of related resource entity)
+        ''33333333-1111-1111-1111-111111111200'',
+        0,
+        16,
         warehouseMaxCapacityInTon);
     ------------------------------- stockportions warehouse 2
-    INSERT INTO stock_portion (id, amount_in_ton, storage_cost_per_ton_per_day, arrival_time)
+    INSERT INTO stock_portion (id, amount_in_ton,amount_left_in_ton ,storage_cost_per_ton_per_day, arrival_time)
     VALUES
-        (''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1'', 10.5, 25.00, ''2024-10-01 08:30:00 +00:00''),
-        (''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22'', 15.2, 30.00, ''2024-10-02 09:45:00 +00:00''),
-        (''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643'', 20.0, 22.50, ''2024-10-03 14:00:00 +00:00''),
-        (''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a'', 8.7, 28.75, ''2024-10-04 11:15:00 +00:00''),
-        (''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'', 12.3, 26.50, ''2024-10-05 16:00:00 +00:00'');
+        (''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1'', 10.5, 10.5,25.00, ''2024-10-01 08:30:00 +00:00''),
+        (''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22'', 15.2,15.2,30.00, ''2024-10-02 09:45:00 +00:00''),
+        (''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643'', 20.0,20.0 ,22.50, ''2024-10-03 14:00:00 +00:00''),
+        (''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a'', 8.7, 8.7,28.75, ''2024-10-04 11:15:00 +00:00''),
+        (''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'', 12.3, 12.3,26.50, ''2024-10-05 16:00:00 +00:00'');
 
     INSERT INTO warehouse_stock_portions (warehouse_id, stock_portions_id)
     VALUES
@@ -54,6 +65,30 @@ BEGIN
 END
 '
 ;
+
+-- Scenario testing reprocessing order lines
+INSERT INTO purchase_order (id, purchase_order_number, status, vendor_id, vessel_number)
+VALUES ('33333333-1111-1111-1111-111111111130', 'PO2345', 'WAITING',
+        '33333333-1111-1111-1111-111111111200',
+        'VE123456');
+
+INSERT INTO delivery_ticket (id, delivery_time, unloading_request_id)
+values ('33333333-1111-1111-1111-511111111131',
+        TIMESTAMPTZ '2024-02-02 02:02:02+00',
+        '33333311-1111-1111-1111-111111111131');
+
+INSERT INTO warehouse_delivery_tickets(delivery_tickets_id, warehouse_id)
+values ('33333333-1111-1111-1111-511111111131',
+        '33333333-1111-1111-1111-111111111202');
+
+INSERT INTO order_line (id, amount_in_ton, has_been_completed, resource_id, selling_price_per_ton)
+VALUES ('22222233-1111-1111-1111-511111111131', 50, FALSE,
+        '33333333-1111-1111-1111-111111111201',130);
+
+INSERT INTO purchase_order_order_lines (purchase_order_id, order_lines_id)
+VALUES ('33333333-1111-1111-1111-111111111130',
+        '22222233-1111-1111-1111-511111111131');
+-- scenario 1
 
 INSERT INTO delivery_ticket (id, delivery_time, unloading_request_id)
 values ('11111111-1111-1111-1111-111111111130',

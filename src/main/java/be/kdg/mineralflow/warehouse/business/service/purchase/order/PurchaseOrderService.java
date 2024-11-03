@@ -1,15 +1,14 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.purchase.order;
 
 import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
-import be.kdg.mineralflow.warehouse.business.util.Status;
 import be.kdg.mineralflow.warehouse.business.util.UnitConverter;
 import be.kdg.mineralflow.warehouse.persistence.BuyerRepository;
-import be.kdg.mineralflow.warehouse.persistence.PurchaseOrderRepository;
+import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
 import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.OrderLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrderDto;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

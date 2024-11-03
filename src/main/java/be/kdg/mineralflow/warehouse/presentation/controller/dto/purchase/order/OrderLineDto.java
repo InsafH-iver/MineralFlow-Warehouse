@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.presentation.controller.dto;
+package be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;

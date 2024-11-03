@@ -1,13 +1,14 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.warehouse;
 
 import be.kdg.mineralflow.warehouse.business.domain.DeliveryTicket;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.service.pdf.DeliveryTicketGeneratingService;
+import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
-import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.DeliveryTicketRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.DeliveryDataDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.DeliveryTicketDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery.DeliveryDataDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery.DeliveryTicketDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class DeliveryTicketService {
     public DeliveryTicketDto addDeliveryTicket(DeliveryDataDto deliveryDataDto) {
         logger.info(String.format("Process to add delivery-ticket with %s delivery-time has started",
                 deliveryDataDto.deliveryTime().format(ISO_ZONED_DATE_TIME)));
-        Warehouse warehouse = getWarehouseByResourceIdAndVendorId(deliveryDataDto.resourceId(), deliveryDataDto.vendorId());
+        Warehouse warehouse = getWarehouse(deliveryDataDto.resourceId(), deliveryDataDto.vendorId());
         DeliveryTicketDto deliveryTicketDto = createDeliveryTicket(warehouse,
                 deliveryDataDto.deliveryTime(), deliveryDataDto.unloadingRequestId());
         deliveryTicketGeneratingService.generateDeliveryTicketPdf(deliveryTicketDto);
@@ -47,15 +48,12 @@ public class DeliveryTicketService {
         return deliveryTicketDto;
     }
 
-    private Warehouse getWarehouseByResourceIdAndVendorId(UUID resourceId, UUID vendorId) {
-        Optional<Warehouse> optionalWarehouse = warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId);
-
-        if (optionalWarehouse.isEmpty()) {
-            String messageException = String.format("The warehouse of vendor with id %s and resource with id %s, was not found", vendorId, resourceId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        return optionalWarehouse.get();
+    private Warehouse getWarehouse(UUID resourceId, UUID vendorId) {
+        return warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "No warehouse found for vendor ID %s with resource ID %s",
+                        vendorId, resourceId
+                ));
     }
 
     private DeliveryTicketDto createDeliveryTicket(Warehouse warehouse, ZonedDateTime deliveryTime, UUID unloadingRequestId) {

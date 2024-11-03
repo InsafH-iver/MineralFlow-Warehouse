@@ -1,11 +1,10 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.warehouse;
 
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
-import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
+import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -21,14 +20,17 @@ public class WarehouseService {
 
     public int getWarehouseNumberByVendorAndResourceId(UUID vendorId, UUID resourceId) {
         logger.info(String.format("Getting warehouse number by vendor id %s and resource id %s", vendorId, resourceId));
-        Optional<Warehouse> optionalWarehouse = warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId);
-        if (optionalWarehouse.isEmpty()) {
-            String messageException = String.format("The warehouse of vendor with id %s and for resource with id %s, was not found", vendorId, resourceId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        int warehouseNumber = optionalWarehouse.get().getWarehouseNumber();
+        Warehouse warehouse = getWarehouse(vendorId, resourceId);
+        int warehouseNumber = warehouse.getWarehouseNumber();
         logger.info(String.format("Returning warehouse number %d successfully", warehouseNumber));
         return warehouseNumber;
+    }
+
+    private Warehouse getWarehouse(UUID vendorId, UUID resourceId) {
+        return warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "No warehouse found for vendor ID %s with resource ID %s",
+                        vendorId, resourceId
+                ));
     }
 }

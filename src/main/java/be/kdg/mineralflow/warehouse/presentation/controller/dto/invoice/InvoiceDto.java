@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.presentation.controller.dto;
+package be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice;
 
 import java.time.LocalDateTime;
 import java.util.List;

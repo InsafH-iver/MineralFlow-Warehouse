@@ -2,6 +2,7 @@ package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.service.warehouse.WarehouseService;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;

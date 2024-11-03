@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.pdf;
 
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
