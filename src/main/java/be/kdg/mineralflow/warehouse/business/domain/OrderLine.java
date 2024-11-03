@@ -18,6 +18,12 @@ public class OrderLine {
     public OrderLine() {
     }
 
+    public OrderLine(double amountInTon, double sellingPricePerTon, Resource resource) {
+        this.amountInTon = amountInTon;
+        this.sellingPricePerTon = sellingPricePerTon;
+        this.resource = resource;
+    }
+
     public OrderLine(double amountInTon, boolean hasBeenCompleted, UUID id, double sellingPricePerTon, Resource resource) {
         this.amountInTon = amountInTon;
         this.hasBeenCompleted = hasBeenCompleted;

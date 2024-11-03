@@ -5,6 +5,7 @@ import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.service.externalApi.EndOfPurchaseOrderPickUpPublisher;
 import be.kdg.mineralflow.warehouse.business.service.purchase.order.PurchaseOrderPickUpService;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
+import be.kdg.mineralflow.warehouse.persistence.CommissionRepository;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,9 @@ class PurchaseOrderPickUpServiceTest extends TestContainer {
 
     @Autowired
     private PurchaseOrderPickUpService purchaseOrderPickUpService;
+
+    @MockBean
+    private CommissionRepository commissionRepository;
 
     @Test
     void processPurchaseOrderPickUp_Should_Succeed_When_PurchaseOrder_Exists_And_Its_Lines_Are_For_Different_resources() {
@@ -107,6 +111,8 @@ class PurchaseOrderPickUpServiceTest extends TestContainer {
 
             Mockito.doNothing().when(endOfPurchaseOrderPickUpPublisher)
                     .publishEndOfPurchaseOrderPickUp(purchaseOrderNumber, endTime);
+            Mockito.when(commissionRepository.save(Mockito.any(Commission.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             //ACT
             purchaseOrderPickUpService.processPurchaseOrderPickUp(purchaseOrderNumber, vendorId);
@@ -286,6 +292,9 @@ class PurchaseOrderPickUpServiceTest extends TestContainer {
             Mockito.doNothing().when(endOfPurchaseOrderPickUpPublisher)
                     .publishEndOfPurchaseOrderPickUp(purchaseOrderNumber, endTime);
 
+            Mockito.when(commissionRepository.save(Mockito.any(Commission.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
+
             //ACT
             purchaseOrderPickUpService.processPurchaseOrderPickUp(purchaseOrderNumber, vendorId);
             //ASSERT
@@ -392,8 +401,7 @@ class PurchaseOrderPickUpServiceTest extends TestContainer {
     }
 
     @Test
-    void processPurchaseOrderPickUp_Should_Take_FIFO_Style_From_StockPortions_When_PurchaseOrder_Exists_And_Its_Lines_When_The_Amount_Taken_Is_More_Than_The_One_StockPortion
-            () {
+    void processPurchaseOrderPickUp_Should_Take_FIFO_Style_From_StockPortions_When_PurchaseOrder_Exists_And_Its_Lines_When_The_Amount_Taken_Is_More_Than_The_One_StockPortion() {
         //ARRANGE
         ZonedDateTime stockPortion1Time = ZonedDateTime.of(2024, 2, 2, 2, 2, 2, 0, ZoneOffset.UTC);
         ZonedDateTime stockPortion2Time = ZonedDateTime.of(2024, 2, 3, 2, 2, 2, 0, ZoneOffset.UTC);
@@ -452,6 +460,9 @@ class PurchaseOrderPickUpServiceTest extends TestContainer {
 
             Mockito.doNothing().when(endOfPurchaseOrderPickUpPublisher)
                     .publishEndOfPurchaseOrderPickUp(purchaseOrderNumber, endTime);
+
+            Mockito.when(commissionRepository.save(Mockito.any(Commission.class)))
+                    .thenAnswer(invocation -> invocation.getArgument(0));
 
             //ACT
             purchaseOrderPickUpService.processPurchaseOrderPickUp(purchaseOrderNumber, vendorId);

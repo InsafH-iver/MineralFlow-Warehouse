@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class ConfigProperties {
     private double warehouseMaxCapacityInTon;
     private double warehouseMaxCapacityThreshold;
+    private double commissionPart;
 
     public double getWarehouseMaxCapacityInTon() {
         return warehouseMaxCapacityInTon;
@@ -23,5 +24,13 @@ public class ConfigProperties {
 
     public void setWarehouseMaxCapacityThreshold(double warehouseMaxCapacityThreshold) {
         this.warehouseMaxCapacityThreshold = warehouseMaxCapacityThreshold;
+    }
+
+    public double getCommissionPart() {
+        return commissionPart;
+    }
+
+    public void setCommissionPart(double commissionPart) {
+        this.commissionPart = commissionPart;
     }
 }

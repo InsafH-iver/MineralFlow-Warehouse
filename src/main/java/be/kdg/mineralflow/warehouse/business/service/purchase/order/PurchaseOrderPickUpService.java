@@ -4,6 +4,7 @@ import be.kdg.mineralflow.warehouse.business.domain.OrderLine;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
 import be.kdg.mineralflow.warehouse.business.domain.Status;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.service.CommissionService;
 import be.kdg.mineralflow.warehouse.business.service.externalApi.EndOfPurchaseOrderPickUpPublisher;
 import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
@@ -23,12 +24,14 @@ public class PurchaseOrderPickUpService {
     private final WarehouseRepository warehouseRepository;
     private final OrderLineService orderLineService;
     private final EndOfPurchaseOrderPickUpPublisher endOfPurchaseOrderPickUpPublisher;
+    private final CommissionService commissionService;
 
-    public PurchaseOrderPickUpService(PurchaseOrderRepository purchaseOrderRepository, WarehouseRepository warehouseRepository, OrderLineService orderLineService, EndOfPurchaseOrderPickUpPublisher endOfPurchaseOrderPickUpPublisher) {
+    public PurchaseOrderPickUpService(PurchaseOrderRepository purchaseOrderRepository, WarehouseRepository warehouseRepository, OrderLineService orderLineService, EndOfPurchaseOrderPickUpPublisher endOfPurchaseOrderPickUpPublisher, CommissionService commissionService) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.warehouseRepository = warehouseRepository;
         this.orderLineService = orderLineService;
         this.endOfPurchaseOrderPickUpPublisher = endOfPurchaseOrderPickUpPublisher;
+        this.commissionService = commissionService;
     }
 
     @Transactional
@@ -39,7 +42,7 @@ public class PurchaseOrderPickUpService {
         purchaseOrder.setStatus(Status.PENDING);
         boolean isFullyFulfilled = fulfillOrderLines(purchaseOrder, vendorId);
         saveStatusOfPurchaseOrder(purchaseOrder, isFullyFulfilled);
-        processEndOfCargoIfFulfilled(isFullyFulfilled, purchaseOrderNumber);
+        processEndOfPurchaseOrderPickup(isFullyFulfilled, purchaseOrder);
     }
 
     private boolean fulfillOrderLines(PurchaseOrder purchaseOrder, UUID vendorId) {
@@ -60,14 +63,15 @@ public class PurchaseOrderPickUpService {
         purchaseOrderRepository.save(purchaseOrder);
     }
 
-    private void processEndOfCargoIfFulfilled(boolean isFulfilled, String purchaseOrderNumber) {
+    private void processEndOfPurchaseOrderPickup(boolean isFulfilled, PurchaseOrder purchaseOrder) {
         if (isFulfilled) {
             logger.info(String.format("Purchase order %s was successfully completed",
-                    purchaseOrderNumber));
-            endOfPurchaseOrderPickUpPublisher.publishEndOfPurchaseOrderPickUp(purchaseOrderNumber, ZonedDateTime.now());
+                    purchaseOrder.getPurchaseOrderNumber()));
+            commissionService.createAndSaveCommissionForPurchaseOrder(purchaseOrder);
+            endOfPurchaseOrderPickUpPublisher.publishEndOfPurchaseOrderPickUp(purchaseOrder.getPurchaseOrderNumber(), ZonedDateTime.now());
         } else {
             logger.info(String.format("Purchase order %s wasn't successfully completed",
-                    purchaseOrderNumber));
+                    purchaseOrder.getPurchaseOrderNumber()));
         }
     }
 

@@ -28,6 +28,14 @@ public class Resource {
         this.sellingPricePerTon = sellingPricePerTon;
         this.storagePricePerTonPerDay = storagePricePerTonPerDay;
     }
+
+    public Resource(String description, String name, double sellingPricePerTon, double storagePricePerTonPerDay) {
+        this.name = name;
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+        this.sellingPricePerTon = sellingPricePerTon;
+        this.description = description;
+    }
+
     public double getStoragePricePerTonPerDay() {
         return storagePricePerTonPerDay;
     }
