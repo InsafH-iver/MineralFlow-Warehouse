@@ -16,4 +16,6 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, UU
     Optional<PurchaseOrder> findPurchaseOrderByPurchaseOrderNumber(String purchaseOrderNumber);
     @EntityGraph(attributePaths = {"orderLines","orderLines.resource","vendor","buyer"})
     List<PurchaseOrder> findAll();
+    List<PurchaseOrder> findAllByStatusNot(Status status);
+    List<PurchaseOrder> findAllByStatus(Status status);
 }
