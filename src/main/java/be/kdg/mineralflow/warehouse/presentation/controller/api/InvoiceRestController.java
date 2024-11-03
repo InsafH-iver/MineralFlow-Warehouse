@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
-import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
+import be.kdg.mineralflow.warehouse.business.service.invoice.InvoiceService;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
 import jakarta.transaction.Transactional;

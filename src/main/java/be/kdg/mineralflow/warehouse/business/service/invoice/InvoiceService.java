@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
@@ -34,6 +34,7 @@ public class InvoiceService {
     private final InvoiceMapper invoiceMapper;
     private final InvoiceFactory invoiceFactory;
     private final InvoiceRepository invoiceRepository;
+    private final CommissionService commissionService;
     private final CommissionRepository commissionRepository;
 
     public InvoiceService(WarehouseRepository warehouseRepository,
@@ -46,7 +47,7 @@ public class InvoiceService {
         this.commissionRepository = commissionRepository;
     }
 
-    @Scheduled(cron = "* * 9 * * *")
+    @Scheduled(cron = "0 0 9 * * *")
     @Transactional
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");

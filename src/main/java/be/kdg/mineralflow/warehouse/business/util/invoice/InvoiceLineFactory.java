@@ -32,6 +32,6 @@ public class InvoiceLineFactory {
                 resource,
                 stockPortion.getArrivalTime(),
                 stockPortion.getAmountLeftInTon(),
-                stockPortion.getStorageCostPerTonPerDay());
+                resource.getStoragePricePerTonPerDay());
     }
 }
