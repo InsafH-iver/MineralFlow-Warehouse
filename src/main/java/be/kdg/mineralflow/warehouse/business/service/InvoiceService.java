@@ -34,21 +34,19 @@ public class InvoiceService {
     private final InvoiceMapper invoiceMapper;
     private final InvoiceFactory invoiceFactory;
     private final InvoiceRepository invoiceRepository;
-    private final CommissionService commissionService;
     private final CommissionRepository commissionRepository;
 
     public InvoiceService(WarehouseRepository warehouseRepository,
-                          InvoiceGeneratingService invoiceGeneratingService, InvoiceMapper invoiceMapper, InvoiceFactory invoiceFactory, InvoiceRepository invoiceRepository, CommissionService commissionService, CommissionRepository commissionRepository) {
+                          InvoiceGeneratingService invoiceGeneratingService, InvoiceMapper invoiceMapper, InvoiceFactory invoiceFactory, InvoiceRepository invoiceRepository, CommissionRepository commissionRepository) {
         this.warehouseRepository = warehouseRepository;
         this.invoiceGeneratingService = invoiceGeneratingService;
         this.invoiceMapper = invoiceMapper;
         this.invoiceFactory = invoiceFactory;
         this.invoiceRepository = invoiceRepository;
-        this.commissionService = commissionService;
         this.commissionRepository = commissionRepository;
     }
 
-    @Scheduled(cron = "*/3 * * * * *")
+    @Scheduled(cron = "* * 9 * * *")
     @Transactional
     public void createInvoices() {
         logger.info("InvoiceService: createInvoices has been called");
