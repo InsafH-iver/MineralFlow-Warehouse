@@ -23,6 +23,10 @@ public class Vendor {
         this.address = address;
     }
 
+    public Vendor(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
     public String getName() {
         return name;
     }

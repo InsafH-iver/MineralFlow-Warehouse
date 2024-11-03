@@ -1,8 +1,10 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.warehouse;
 
 import be.kdg.mineralflow.warehouse.business.domain.DeliveryTicket;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.service.purchase.order.UnfulfilledOrderLineService;
+import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.DeliveryTicketRepository;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
@@ -22,11 +24,16 @@ public class StockPortionDeliveryService {
     private final WarehouseRepository warehouseRepository;
     private final ResourceRepository resourceRepository;
     private final DeliveryTicketRepository deliveryTicketRepository;
+    private final UnfulfilledOrderLineService unfulfilledOrderLineService;
 
-    public StockPortionDeliveryService(WarehouseRepository warehouseRepository, ResourceRepository resourceRepository, DeliveryTicketRepository deliveryTicketRepository) {
+    public StockPortionDeliveryService(WarehouseRepository warehouseRepository,
+                                       ResourceRepository resourceRepository,
+                                       DeliveryTicketRepository deliveryTicketRepository,
+                                       UnfulfilledOrderLineService unfulfilledOrderLineService) {
         this.warehouseRepository = warehouseRepository;
         this.resourceRepository = resourceRepository;
         this.deliveryTicketRepository = deliveryTicketRepository;
+        this.unfulfilledOrderLineService = unfulfilledOrderLineService;
     }
 
     @Transactional
@@ -34,26 +41,32 @@ public class StockPortionDeliveryService {
                                              double weight, UUID unloadingRequestId,
                                              ZonedDateTime endWeightTime) {
         logger.info(String.format("Start of handling StockPortion with weight %f and of vendor %s and resource %s", weight, vendorId, resourceId));
-        Resource resource = getResourceById(resourceId);
-        Warehouse warehouse = getWarehouseByResourceIdAndVendorId(resourceId, vendorId);
+        Resource resource = getResource(resourceId);
+        Warehouse warehouse = getWarehouse(resourceId, vendorId);
         ZonedDateTime deliveryTime = getDeliveryTime(unloadingRequestId, endWeightTime);
 
         addStockPortionToWarehouse(warehouse, resource, weight, deliveryTime);
+        unfulfilledOrderLineService.checkForUnfulfilledOrders(resourceId, warehouse);
         logger.info("Successfully added stock portion to warehouse");
     }
 
-    private Warehouse getWarehouseByResourceIdAndVendorId(UUID resourceId, UUID vendorId) {
-        Optional<Warehouse> optionalWarehouse = warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId);
-
-        if (optionalWarehouse.isEmpty()) {
-            String messageException = String.format("The warehouse of vendor with id %s and for resource with id %s, was not found", vendorId, resourceId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        return optionalWarehouse.get();
+    private void addStockPortionToWarehouse(Warehouse warehouse, Resource resource,
+                                            double weight, ZonedDateTime deliveryTime) {
+        double storageCostPerTonPerDayOfResource = resource.getStoragePricePerTonPerDay();
+        warehouse.addStockPortion(weight, deliveryTime, storageCostPerTonPerDayOfResource);
+        warehouseRepository.save(warehouse);
     }
 
-    private Resource getResourceById(UUID resourceId) {
+
+    private Warehouse getWarehouse(UUID resourceId, UUID vendorId) {
+        return warehouseRepository.findFirstByVendorIdAndResourceId(vendorId, resourceId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "No warehouse found for vendor ID %s with resource ID %s",
+                        vendorId, resourceId
+                ));
+    }
+
+    private Resource getResource(UUID resourceId) {
         Optional<Resource> optionalResource = resourceRepository.findById(resourceId);
 
         if (optionalResource.isEmpty()) {
@@ -76,10 +89,5 @@ public class StockPortionDeliveryService {
         return optionalDeliveryTicket.get().getDeliveryTime();
     }
 
-    private void addStockPortionToWarehouse(Warehouse warehouse, Resource resource,
-                                            double weight, ZonedDateTime deliveryTime) {
-        double storageCostPerTonPerDayOfResource = resource.getStoragePricePerTonPerDay();
-        warehouse.addStockPortion(weight, deliveryTime, storageCostPerTonPerDayOfResource);
-        warehouseRepository.save(warehouse);
-    }
+
 }

@@ -2,8 +2,8 @@ package be.kdg.mineralflow.warehouse.business.util.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceLineDto;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

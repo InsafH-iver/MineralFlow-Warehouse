@@ -1,8 +1,8 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
-import be.kdg.mineralflow.warehouse.business.service.DeliveryTicketService;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.DeliveryDataDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.DeliveryTicketDto;
+import be.kdg.mineralflow.warehouse.business.service.warehouse.DeliveryTicketService;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery.DeliveryDataDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery.DeliveryTicketDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

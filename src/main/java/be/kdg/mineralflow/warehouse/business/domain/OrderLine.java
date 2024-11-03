@@ -11,8 +11,20 @@ public class OrderLine {
     private UUID id;
     private double amountInTon;
     private double sellingPricePerTon;
+    private boolean hasBeenCompleted;
     @ManyToOne
     private Resource resource;
+
+    public OrderLine() {
+    }
+
+    public OrderLine(double amountInTon, boolean hasBeenCompleted, UUID id, double sellingPricePerTon, Resource resource) {
+        this.amountInTon = amountInTon;
+        this.hasBeenCompleted = hasBeenCompleted;
+        this.id = id;
+        this.sellingPricePerTon = sellingPricePerTon;
+        this.resource = resource;
+    }
 
     public UUID getId() {
         return id;
@@ -21,6 +33,7 @@ public class OrderLine {
     public void setId(UUID id) {
         this.id = id;
     }
+
 
     public Resource getResource() {
         return resource;
@@ -44,5 +57,13 @@ public class OrderLine {
 
     public void setAmountInTon(double amountInTon) {
         this.amountInTon = amountInTon;
+    }
+
+    public boolean hasBeenCompleted() {
+        return hasBeenCompleted;
+    }
+
+    public void markAsCompleted() {
+        this.hasBeenCompleted = true;
     }
 }

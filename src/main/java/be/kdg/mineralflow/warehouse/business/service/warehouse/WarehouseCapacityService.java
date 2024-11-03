@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.warehouse;
 
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;

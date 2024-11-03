@@ -1,6 +1,6 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.pdf;
 
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.DeliveryTicketDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.delivery.DeliveryTicketDto;
 import org.springframework.stereotype.Service;
 
 @Service

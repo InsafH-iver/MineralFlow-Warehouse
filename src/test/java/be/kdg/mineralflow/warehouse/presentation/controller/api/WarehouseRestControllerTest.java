@@ -59,6 +59,6 @@ class WarehouseRestControllerTest extends TestContainer {
                                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isNotFound())
                 .andExpect(result -> assertInstanceOf(NoItemFoundException.class, result.getResolvedException()))
-                .andExpect(result -> assertEquals(String.format("The warehouse of vendor with id %s and for resource with id %s, was not found",vendorId, resourceId), Objects.requireNonNull(result.getResolvedException()).getMessage()));
+                .andExpect(result -> assertEquals(String.format("No warehouse found for vendor ID %s with resource ID %s",vendorId, resourceId), Objects.requireNonNull(result.getResolvedException()).getMessage()));
     }
 }

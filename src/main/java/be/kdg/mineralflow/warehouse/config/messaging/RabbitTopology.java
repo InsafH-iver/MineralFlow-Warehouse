@@ -17,27 +17,56 @@ public class RabbitTopology {
         this.rabbitConfigProperties = rabbitConfigProperties;
     }
 
+    //EXCHANGES
     @Bean
-    TopicExchange landTopicExchange(){
-        return new TopicExchange(rabbitConfigProperties.getExchangeName());
+    TopicExchange waterTopicExchange() {
+        return new TopicExchange(rabbitConfigProperties.getWaterExchangeName());
     }
 
     @Bean
-    public Queue arrivalAtWareHouseQueue() {
+    TopicExchange warehouseTopicExchange() {
+        return new TopicExchange(rabbitConfigProperties.getWarehouseExchangeName());
+    }
+
+    //PURCHASE_ORDER_PICK_up
+    @Bean
+    public Queue purchaseOrderPickUpQueue() {
+        return new Queue(rabbitConfigProperties.getPurchaseOrderPickUpQueue(), false);
+    }
+
+    @Bean
+    public Binding purchaseOrderPickUpBinding(@Qualifier("warehouseTopicExchange") TopicExchange warehouseTopicExchange
+            , @Qualifier("purchaseOrderPickUpQueue") Queue purchaseOrderPickUpQueue) {
+
+        return BindingBuilder.bind(purchaseOrderPickUpQueue).to(warehouseTopicExchange)
+                .with(rabbitConfigProperties.getPurchaseOrderPickUpRoutingKey());
+    }
+
+    //ADD_PURCHASE_ORDER
+    @Bean
+    public Queue addPurchaseOrderQueue() {
+        return new Queue(rabbitConfigProperties.getAddPurchaseOrderQueue(), false);
+    }
+
+    @Bean
+    public Binding addPurchaseOrderBinding(@Qualifier("warehouseTopicExchange") TopicExchange warehouseTopicExchange
+            , @Qualifier("addPurchaseOrderQueue") Queue addPurchaseOrderQueue) {
+
+        return BindingBuilder.bind(addPurchaseOrderQueue).to(warehouseTopicExchange)
+                .with(rabbitConfigProperties.getAddPurchaseOrderRoutingKey());
+    }
+
+    //TRUCK_DEPARTURE_FROM_WEIGHING_BRIDGE
+    @Bean
+    public Queue truckDepartureFromWeighingBridgeQueue() {
         return new Queue(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeQueue(), false);
     }
 
     @Bean
-    public Binding arrivalAtWareHouseBinding(TopicExchange topicExchange, @Qualifier("arrivalAtWareHouseQueue") Queue queue) {
-        return BindingBuilder.bind(queue).to(topicExchange).with(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeRoutingKey());
-    }
+    public Binding truckDepartureFromWeighingBridgeBinding(@Qualifier("warehouseTopicExchange") TopicExchange warehouseTopicExchange
+            , @Qualifier("truckDepartureFromWeighingBridgeQueue") Queue truckDepartureFromWeighingBridgeQueue) {
 
-    @Bean
-    public Queue addPurchaseOrderQueue(){
-        return new Queue(rabbitConfigProperties.getAddPurchaseOrderQueue(),false);
-    }
-    @Bean
-    public Binding addPurchaseOrderBinding(TopicExchange topicExchange, @Qualifier("addPurchaseOrderQueue") Queue queue){
-        return BindingBuilder.bind(queue).to(topicExchange).with(rabbitConfigProperties.getAddPurchaseOrderRoutingKey());
+        return BindingBuilder.bind(truckDepartureFromWeighingBridgeQueue).to(warehouseTopicExchange)
+                .with(rabbitConfigProperties.getTruckDepartureFromWeighingBridgeRoutingKey());
     }
 }

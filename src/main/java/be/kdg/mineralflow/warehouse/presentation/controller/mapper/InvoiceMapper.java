@@ -4,8 +4,8 @@ import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.util.invoice.Invoice;
 import be.kdg.mineralflow.warehouse.business.util.storageCost.StorageCostCalculator;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceLineDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class InvoiceMapper {
                     return new InvoiceLineDto(
                             stockPortion.getArrivalTime().toLocalDateTime(),
                             il.getResource().getName(),
-                            stockPortion.getAmountInTon(),
+                            stockPortion.getAmountLeftInTon(),
                             stockPortion.getStorageCostPerTonPerDay(),
                             il.getDaysInStorage(invoice.getCreationDate()),
                             storageCostCalculator.calculateStorageCost(stockPortion,invoice.getCreationDate())

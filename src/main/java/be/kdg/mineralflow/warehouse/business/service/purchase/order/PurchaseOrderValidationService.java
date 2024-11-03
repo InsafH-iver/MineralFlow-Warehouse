@@ -1,8 +1,8 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.purchase.order;
 
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PartyDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrderDto;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotNull;

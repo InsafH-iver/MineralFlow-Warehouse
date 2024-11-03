@@ -1,8 +1,7 @@
-package be.kdg.mineralflow.warehouse.handler;
+package be.kdg.mineralflow.warehouse.handler.purchase.order;
 
-import be.kdg.mineralflow.warehouse.business.service.PurchaseOrderService;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
-import jakarta.validation.ConstraintViolationException;
+import be.kdg.mineralflow.warehouse.business.service.purchase.order.PurchaseOrderService;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrderDto;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +9,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Component
-public class PurchaseOrderHandler {
+public class AddingPurchaseOrderHandler {
     public static final Logger logger = Logger
-            .getLogger(PurchaseOrderHandler.class.getName());
+            .getLogger(AddingPurchaseOrderHandler.class.getName());
     private final PurchaseOrderService purchaseOrderService;
 
-    public PurchaseOrderHandler(PurchaseOrderService purchaseOrderService) {
+    public AddingPurchaseOrderHandler(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
 

@@ -44,7 +44,8 @@ public class Warehouse {
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
-    public boolean isFull(double maxCapacityThreshold){
+
+    public boolean isFull(double maxCapacityThreshold) {
         return usedCapacityInTon >= maxCapacityInTon * maxCapacityThreshold;
     }
 
@@ -82,5 +83,28 @@ public class Warehouse {
 
     public List<DeliveryTicket> getDeliveryTickets() {
         return deliveryTickets;
+    }
+
+    public void reduceStock(double amountInTonTakenOut) {
+        if (amountInTonTakenOut > this.usedCapacityInTon || amountInTonTakenOut < 0) {
+            String messageException = String.format("The provided amount taken out of warehouse in ton (%f) is invalid," +
+                    " the value must be a positive number and can not be more than the used capacity %s"
+                    , amountInTonTakenOut, this.usedCapacityInTon);
+            logger.severe(messageException);
+            throw new IncorrectDomainException(messageException);
+        }
+        usedCapacityInTon -= amountInTonTakenOut;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public void setStockPortions(List<StockPortion> stockPortions) {
+        this.stockPortions = stockPortions;
     }
 }

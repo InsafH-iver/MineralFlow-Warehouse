@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
-import be.kdg.mineralflow.warehouse.business.service.WarehouseService;
+import be.kdg.mineralflow.warehouse.business.service.warehouse.WarehouseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

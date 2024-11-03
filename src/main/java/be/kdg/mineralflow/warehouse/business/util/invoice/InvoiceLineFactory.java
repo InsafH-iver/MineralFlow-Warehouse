@@ -4,7 +4,7 @@ import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
 import be.kdg.mineralflow.warehouse.business.util.storageCost.StorageCostCalculator;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceLineDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceLineDto;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
