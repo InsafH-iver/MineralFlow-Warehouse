@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.warehouse.business.service.warehouse;
+package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-class WarehouseOverviewServiceTest extends TestContainer {
+class WarehouseOverviewRestControllerTest extends TestContainer {
     @Autowired
     MockMvc mockMvc;
     @Autowired
