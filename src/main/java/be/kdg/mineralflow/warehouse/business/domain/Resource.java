@@ -54,4 +54,12 @@ public class Resource {
     public String getDescription() {
         return description;
     }
+
+    public void setStoragePricePerTonPerDay(double storagePricePerTonPerDay) {
+        this.storagePricePerTonPerDay = storagePricePerTonPerDay;
+    }
+
+    public void setSellingPricePerTon(double sellingPricePerTon) {
+        this.sellingPricePerTon = sellingPricePerTon;
+    }
 }

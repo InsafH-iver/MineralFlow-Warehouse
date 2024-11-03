@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface ResourceRepository extends JpaRepository<Resource, UUID> {
     Optional<Resource> getResourceByNameIgnoreCase(String resourceName);
+
+    Optional<Resource> getResourceById(UUID resourceId);
 }
