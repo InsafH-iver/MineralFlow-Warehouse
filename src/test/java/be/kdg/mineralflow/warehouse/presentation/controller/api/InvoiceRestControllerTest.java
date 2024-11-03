@@ -3,9 +3,9 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
-import be.kdg.mineralflow.warehouse.business.util.Status;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.persistence.*;
+import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -90,7 +90,7 @@ class InvoiceRestControllerTest extends TestContainer {
         PurchaseOrder po = new PurchaseOrder(
                 "PO12121212",
                 "VES12121212",
-                Status.FULFILLED, List.of(new OrderLine(15,10, resource)),
+                Status.COMPLETED, List.of(new OrderLine(15,10, resource)),
                 vendor,
                 buyer
         );
@@ -98,7 +98,7 @@ class InvoiceRestControllerTest extends TestContainer {
         commission.setCreationDate(dateTime);
         resourceRepository.saveAndFlush(resource);
         Vendor resultVendor = vendorRepository.save(vendor);
-        Warehouse warehouse = new Warehouse(2,
+        Warehouse warehouse = new Warehouse(UUID.randomUUID(),2,
                 123,configProperties.getWarehouseMaxCapacityInTon());
         warehouse.setVendor(resultVendor);
         warehouse.setResource(resource);

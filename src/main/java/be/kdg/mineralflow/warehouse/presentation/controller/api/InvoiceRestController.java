@@ -2,11 +2,9 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.connector.Response;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +31,7 @@ public class InvoiceRestController {
 
     @Transactional
     @GetMapping("/{vendorId}/{dateTime}")
-    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable UUID vendorId,@PathVariable LocalDateTime dateTime){
+    public ResponseEntity<InvoiceDto> getInvoice(@PathVariable UUID vendorId, @PathVariable LocalDateTime dateTime){
         logger.info(String.format("getInvoice was called with vendorId %s and dateTime %s",vendorId,dateTime));
         Invoice invoice = invoiceService.getInvoice(vendorId,dateTime);
         if (invoice == null) {

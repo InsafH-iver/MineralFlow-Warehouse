@@ -32,7 +32,8 @@ public class Warehouse {
     protected Warehouse() {
     }
 
-    public Warehouse(int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
+    public Warehouse(UUID warehouseId,int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
+        this.id = warehouseId;
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
         stockPortions = new ArrayList<>();
@@ -112,17 +113,5 @@ public class Warehouse {
             throw new IncorrectDomainException(messageException);
         }
         usedCapacityInTon -= amountInTonTakenOut;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public void setResource(Resource resource) {
-        this.resource = resource;
-    }
-
-    public void setStockPortions(List<StockPortion> stockPortions) {
-        this.stockPortions = stockPortions;
     }
 }

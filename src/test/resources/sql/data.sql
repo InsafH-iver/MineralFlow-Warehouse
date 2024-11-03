@@ -1,3 +1,8 @@
+INSERT INTO Vendor (id, name)
+VALUES ('33333333-1111-1111-1111-111111111200', 'johnson & Johnson');
+INSERT INTO resource (id, name, selling_price_per_ton, storage_price_per_ton_per_day)
+VALUES ('33333333-1111-1111-1111-111111111201', 'Fentanyl', 1000, 13);
+
 DO
 '
 DECLARE
@@ -20,35 +25,35 @@ BEGIN
            (''11111111-1111-1111-1111-111111111121'', ''WMCA-enco'');
     INSERT INTO resource (id, name, selling_price_per_ton, storage_price_per_ton_per_day)
     VALUES (''11111111-1111-1111-1111-111111111114'', ''Beton'', 27, 24),
-     (''11111111-1111-1111-1111-111111111120'', ''Silver'', 345, 12.4);
+           (''11111111-1111-1111-1111-111111111120'', ''Silver'', 345, 12.4);
 
     INSERT INTO warehouse (id, resource_id, vendor_id, used_capacity_in_ton, warehouse_number, max_capacity_in_ton)
     VALUES (''11111111-1111-1111-1111-111111111116'',
-        ''11111111-1111-1111-1111-111111111114'', -- resource_id (UUID of related resource entity)
-        ''11111111-1111-1111-1111-111111111115'',
-        450,
-        3,
-        warehouseMaxCapacityInTon),
-        (''11111111-1111-1111-1111-111111111122'',
-        ''11111111-1111-1111-1111-111111111120'', -- resource_id (UUID of related resource entity)
-        ''11111111-1111-1111-1111-111111111121'',
-        123,
-        7,
-        warehouseMaxCapacityInTon),
-        (''33333333-1111-1111-1111-111111111202'',
-        ''33333333-1111-1111-1111-111111111201'', -- resource_id (UUID of related resource entity)
-        ''33333333-1111-1111-1111-111111111200'',
-        0,
-        16,
-        warehouseMaxCapacityInTon);
+            ''11111111-1111-1111-1111-111111111114'', -- resource_id (UUID of related resource entity)
+            ''11111111-1111-1111-1111-111111111115'',
+            450,
+            3,
+            warehouseMaxCapacityInTon),
+           (''11111111-1111-1111-1111-111111111122'',
+            ''11111111-1111-1111-1111-111111111120'', -- resource_id (UUID of related resource entity)
+            ''11111111-1111-1111-1111-111111111121'',
+            123,
+            7,
+            warehouseMaxCapacityInTon),
+           (''33333333-1111-1111-1111-111111111202'',
+            ''33333333-1111-1111-1111-111111111201'', -- resource_id (UUID of related resource entity)
+            ''33333333-1111-1111-1111-111111111200'',
+            0,
+            16,
+            warehouseMaxCapacityInTon);
     ------------------------------- stockportions warehouse 2
-    INSERT INTO stock_portion (id, amount_in_ton, storage_cost_per_ton_per_day, arrival_time)
+    INSERT INTO stock_portion (id, amount_in_ton,amount_left_in_ton ,storage_cost_per_ton_per_day, arrival_time)
     VALUES
-        (''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1'', 10.5, 25.00, ''2024-10-01 08:30:00 +00:00''),
-        (''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22'', 15.2, 30.00, ''2024-10-02 09:45:00 +00:00''),
-        (''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643'', 20.0, 22.50, ''2024-10-03 14:00:00 +00:00''),
-        (''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a'', 8.7, 28.75, ''2024-10-04 11:15:00 +00:00''),
-        (''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'', 12.3, 26.50, ''2024-10-05 16:00:00 +00:00'');
+        (''1e4d8c48-bd52-4c9c-8a57-9cb0f2dd76d1'', 10.5, 10.5,25.00, ''2024-10-01 08:30:00 +00:00''),
+        (''2a6f2d33-ecab-423b-b69f-d5c59bb9ef22'', 15.2,15.2,30.00, ''2024-10-02 09:45:00 +00:00''),
+        (''3b9f2e8d-95c7-4d8e-a2c5-6a8abfe1f643'', 20.0,20.0 ,22.50, ''2024-10-03 14:00:00 +00:00''),
+        (''4c2f35f4-75be-46c7-bb49-7514fd7bbd0a'', 8.7, 8.7,28.75, ''2024-10-04 11:15:00 +00:00''),
+        (''5d4a89e9-88a8-4f4f-9f9f-b2c61dd7e819'', 12.3, 12.3,26.50, ''2024-10-05 16:00:00 +00:00'');
 
     INSERT INTO warehouse_stock_portions (warehouse_id, stock_portions_id)
     VALUES

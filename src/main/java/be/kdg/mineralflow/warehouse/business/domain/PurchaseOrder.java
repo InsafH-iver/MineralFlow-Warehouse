@@ -26,16 +26,13 @@ public class PurchaseOrder {
     public PurchaseOrder() {
     }
 
-    public PurchaseOrder(String poNumber, String vesselNumber, Status status, List<OrderLine> orderLines, Vendor vendor, Buyer buyer) {
-        this.poNumber = poNumber;
+    public PurchaseOrder(String purchaseOrderNumber, String vesselNumber, Status status, List<OrderLine> orderLines, Vendor vendor, Buyer buyer) {
+        this.purchaseOrderNumber = purchaseOrderNumber;
         this.vesselNumber = vesselNumber;
         this.status = status;
         this.orderLines = orderLines;
         this.vendor = vendor;
         this.buyer = buyer;
-    }
-
-    public PurchaseOrder() {
     }
 
     public PurchaseOrder(UUID id, List<OrderLine> orderLines, String purchaseOrderNumber, Status status, Vendor vendor, String vesselNumber) {
