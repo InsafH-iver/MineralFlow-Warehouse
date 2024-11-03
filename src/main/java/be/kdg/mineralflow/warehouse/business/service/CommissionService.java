@@ -3,6 +3,7 @@ package be.kdg.mineralflow.warehouse.business.service;
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
+import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.util.commission.CommissionCostCalculator;
 import be.kdg.mineralflow.warehouse.persistence.CommissionRepository;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,13 @@ public class CommissionService {
 
 
     public Invoice addCommissionsToInvoice(Invoice invoice){
-        List<Commission> commissions = getCommissions(invoice.getCreationDate().toLocalDate());
+        List<Commission> commissions = getCommissions(invoice.getCreationDate().toLocalDate(),invoice.getVendor());
         if (commissions.isEmpty()) return invoice;
         commissions.forEach(invoice::addCommission);
         return invoice;
     }
-    public List<Commission> getCommissions(LocalDate date){
-        return commissionRepository.findAllCommissionsByCreationDateAndInvoiceIsNull(date);
+    public List<Commission> getCommissions(LocalDate date, Vendor vendor){
+        return commissionRepository.findAllCommissionsByCreationDateAndInvoiceIsNullAndVendor(date,vendor);
     }
     public PurchaseOrder createCommissionsForPurchaseOrder(PurchaseOrder purchaseOrder){
         Commission commission = new Commission();

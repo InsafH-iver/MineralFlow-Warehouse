@@ -32,8 +32,7 @@ public class Warehouse {
     protected Warehouse() {
     }
 
-    public Warehouse(UUID id, int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
-        this.id = id;
+    public Warehouse(int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
         stockPortions = new ArrayList<>();
@@ -94,6 +93,14 @@ public class Warehouse {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public void setStockPortions(List<StockPortion> stockPortions) {
+        this.stockPortions = stockPortions;
     }
 
     public void reduceStock(double amountInTonTakenOut) {

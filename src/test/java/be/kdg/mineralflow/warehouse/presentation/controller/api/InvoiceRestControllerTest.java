@@ -6,27 +6,22 @@ import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
 import be.kdg.mineralflow.warehouse.business.util.Status;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.persistence.*;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PartyDto;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @AutoConfigureMockMvc
 class InvoiceRestControllerTest extends TestContainer {
@@ -48,30 +43,49 @@ class InvoiceRestControllerTest extends TestContainer {
     private ConfigProperties configProperties;
     @Autowired
     private WarehouseRepository warehouseRepository;
-    @Autowired
-    private InvoiceRestController invoiceRestController;
 
     @Test
     void getInvoice_should_return_invoice() throws Exception {
         //ARRANGE
-        Vendor vendor = seedDataForHappyPath();
-        UUID vendorId = vendor.getId();
         LocalDateTime dateTime = LocalDateTime.now();
+        Vendor vendor = seedDataForHappyPath(dateTime);
+        UUID vendorId = vendor.getId();
         invoiceService.createInvoices();
+
         //ACT
-        MvcResult some = mockMvc.perform(
+        // ASSERT
+        MvcResult result = mockMvc.perform(
                         get("/api/invoice/{vendorId}/{dateTime}"
                                 , vendorId, dateTime)
                                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
-                .andExpect(result -> assertInstanceOf(InvoiceDto.class,result)).andReturn();
-        // ASSERT
+                .andReturn();
+        String invoice = result.getResponse().getContentAsString();
+        assertThat(invoice).containsIgnoringCase(vendor.getName());
+        assertThat(invoice).containsIgnoringCase("commissionCost\":150");
+        assertThat(invoice).containsIgnoringCase("totalStorageCost\":16");
+        assertThat(invoice).containsIgnoringCase("weightInTon\":412");
+        assertThat(invoice).containsIgnoringCase("vendorName\":\"berend janssens\"");
 
     }
+    @Test
+    void getInvoice_should_return_not_found_when_no_invoice_was_found() throws Exception {
+        //ARRANGE
+        LocalDateTime dateTime = LocalDateTime.now();
+        UUID vendorId = UUID.randomUUID();
 
-    private Vendor seedDataForHappyPath() {
+        //ACT
+        // ASSERT
+        mockMvc.perform(
+                        get("/api/invoice/{vendorId}/{dateTime}"
+                                , vendorId, dateTime)
+                                .accept(MediaType.APPLICATION_JSON)
+                ).andExpect(status().isNotFound());
+    }
+
+    private Vendor seedDataForHappyPath(LocalDateTime dateTime) {
         Buyer buyer = new Buyer("somewhere over the rainbow", "freddy janssens");
-        Vendor vendor = new Vendor("somewhere over the rainbow", "freddy janssens");
+        Vendor vendor = new Vendor("berend janssens","somewhere before the rainbow");
         Resource resource = new Resource("Hout","hout",10,5);
         PurchaseOrder po = new PurchaseOrder(
                 "PO12121212",
@@ -81,11 +95,14 @@ class InvoiceRestControllerTest extends TestContainer {
                 buyer
         );
         Commission commission = new Commission(po,150);
+        commission.setCreationDate(dateTime);
         resourceRepository.saveAndFlush(resource);
         Vendor resultVendor = vendorRepository.save(vendor);
         Warehouse warehouse = new Warehouse(2,
                 123,configProperties.getWarehouseMaxCapacityInTon());
         warehouse.setVendor(resultVendor);
+        warehouse.setResource(resource);
+        warehouse.setStockPortions(List.of(new StockPortion(412, ZonedDateTime.now().minusDays(4),4)));
         warehouseRepository.save(warehouse);
         buyerRepository.save(buyer);
         purchaseOrderRepository.save(po);
