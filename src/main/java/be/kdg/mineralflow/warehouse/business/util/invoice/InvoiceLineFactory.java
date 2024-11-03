@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.warehouse.business.util.invoice;
 
+import be.kdg.mineralflow.warehouse.business.domain.InvoiceLine;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
@@ -27,20 +28,10 @@ public class InvoiceLineFactory {
     }
 
     public InvoiceLine createInvoiceLine(Resource resource, StockPortion stockPortion) {
-        return new InvoiceLine(resource, stockPortion);
-    }
-
-    public List<InvoiceLineDto> toInvoiceLineDtos(List<InvoiceLine> invoiceLines, LocalDateTime invoiceDate) {
-        return invoiceLines.stream().map(il -> {
-            StockPortion stockPortion = il.getStockPortion();
-            return new InvoiceLineDto(
-                    stockPortion.getArrivalTime().toLocalDateTime(),
-                    il.getResource().getName(),
-                    stockPortion.getAmountInTon(),
-                    stockPortion.getStorageCostPerTonPerDay(),
-                    il.getDaysInStorage(invoiceDate),
-                    storageCostCalculator.calculateStorageCost(stockPortion, invoiceDate)
-            );
-        }).toList();
+        return new InvoiceLine(
+                resource,
+                stockPortion.getArrivalTime(),
+                stockPortion.getAmountLeftInTon(),
+                stockPortion.getStorageCostPerTonPerDay());
     }
 }

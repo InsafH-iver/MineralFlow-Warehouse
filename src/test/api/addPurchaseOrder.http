@@ -1,4 +1,4 @@
-### Send message to RabbitMQ queue via HTTP API
+### add purchase order - succeeds once
 POST http://localhost:15672/api/exchanges/%2F/warehouse-exchange/publish
 Authorization: Basic dXNlcjpwYXNzd29yZA==
 Content-Type: application/json

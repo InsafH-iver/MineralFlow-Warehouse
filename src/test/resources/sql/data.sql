@@ -25,27 +25,27 @@ BEGIN
            (''11111111-1111-1111-1111-111111111121'', ''WMCA-enco'');
     INSERT INTO resource (id, name, selling_price_per_ton, storage_price_per_ton_per_day)
     VALUES (''11111111-1111-1111-1111-111111111114'', ''Beton'', 27, 24),
-     (''11111111-1111-1111-1111-111111111120'', ''Silver'', 345, 12.4);
+           (''11111111-1111-1111-1111-111111111120'', ''Silver'', 345, 12.4);
 
     INSERT INTO warehouse (id, resource_id, vendor_id, used_capacity_in_ton, warehouse_number, max_capacity_in_ton)
     VALUES (''11111111-1111-1111-1111-111111111116'',
-        ''11111111-1111-1111-1111-111111111114'', -- resource_id (UUID of related resource entity)
-        ''11111111-1111-1111-1111-111111111115'',
-        450,
-        3,
-        warehouseMaxCapacityInTon),
-        (''11111111-1111-1111-1111-111111111122'',
-        ''11111111-1111-1111-1111-111111111120'', -- resource_id (UUID of related resource entity)
-        ''11111111-1111-1111-1111-111111111121'',
-        123,
-        7,
-        warehouseMaxCapacityInTon),
-        (''33333333-1111-1111-1111-111111111202'',
-        ''33333333-1111-1111-1111-111111111201'', -- resource_id (UUID of related resource entity)
-        ''33333333-1111-1111-1111-111111111200'',
-        0,
-        16,
-        warehouseMaxCapacityInTon);
+            ''11111111-1111-1111-1111-111111111114'', -- resource_id (UUID of related resource entity)
+            ''11111111-1111-1111-1111-111111111115'',
+            450,
+            3,
+            warehouseMaxCapacityInTon),
+           (''11111111-1111-1111-1111-111111111122'',
+            ''11111111-1111-1111-1111-111111111120'', -- resource_id (UUID of related resource entity)
+            ''11111111-1111-1111-1111-111111111121'',
+            123,
+            7,
+            warehouseMaxCapacityInTon),
+           (''33333333-1111-1111-1111-111111111202'',
+            ''33333333-1111-1111-1111-111111111201'', -- resource_id (UUID of related resource entity)
+            ''33333333-1111-1111-1111-111111111200'',
+            0,
+            16,
+            warehouseMaxCapacityInTon);
     ------------------------------- stockportions warehouse 2
     INSERT INTO stock_portion (id, amount_in_ton,amount_left_in_ton ,storage_cost_per_ton_per_day, arrival_time)
     VALUES

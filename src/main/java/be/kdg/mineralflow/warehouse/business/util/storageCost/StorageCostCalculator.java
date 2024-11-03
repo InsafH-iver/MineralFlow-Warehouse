@@ -1,9 +1,9 @@
 package be.kdg.mineralflow.warehouse.business.util.storageCost;
 
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
+import be.kdg.mineralflow.warehouse.business.domain.InvoiceLine;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface StorageCostCalculator {
-    double calculateStorageCost(StockPortion stockPortion, LocalDateTime time);
+    double calculateStorageCost(InvoiceLine invoiceLine, LocalDate time);
 }

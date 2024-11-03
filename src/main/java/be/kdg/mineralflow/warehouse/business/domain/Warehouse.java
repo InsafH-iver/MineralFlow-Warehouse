@@ -32,8 +32,8 @@ public class Warehouse {
     protected Warehouse() {
     }
 
-    public Warehouse(UUID id, int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
-        this.id = id;
+    public Warehouse(UUID warehouseId,int warehouseNumber, double usedCapacityInTon, double maxCapacityInTon) {
+        this.id = warehouseId;
         this.warehouseNumber = warehouseNumber;
         this.usedCapacityInTon = usedCapacityInTon;
         stockPortions = new ArrayList<>();
@@ -44,8 +44,7 @@ public class Warehouse {
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
-
-    public boolean isFull(double maxCapacityThreshold) {
+    public boolean isFull(double maxCapacityThreshold){
         return usedCapacityInTon >= maxCapacityInTon * maxCapacityThreshold;
     }
 
@@ -77,12 +76,32 @@ public class Warehouse {
         return vendor;
     }
 
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
     public double getUsedCapacityInTon() {
         return usedCapacityInTon;
     }
 
     public List<DeliveryTicket> getDeliveryTickets() {
         return deliveryTickets;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public void setStockPortions(List<StockPortion> stockPortions) {
+        this.stockPortions = stockPortions;
     }
 
     public void reduceStock(double amountInTonTakenOut) {
@@ -94,17 +113,5 @@ public class Warehouse {
             throw new IncorrectDomainException(messageException);
         }
         usedCapacityInTon -= amountInTonTakenOut;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
-
-    public void setResource(Resource resource) {
-        this.resource = resource;
-    }
-
-    public void setStockPortions(List<StockPortion> stockPortions) {
-        this.stockPortions = stockPortions;
     }
 }
