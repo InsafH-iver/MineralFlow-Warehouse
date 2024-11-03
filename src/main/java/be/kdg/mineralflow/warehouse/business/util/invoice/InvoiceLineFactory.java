@@ -28,6 +28,10 @@ public class InvoiceLineFactory {
     }
 
     public InvoiceLine createInvoiceLine(Resource resource, StockPortion stockPortion) {
-        return new InvoiceLine(resource, stockPortion);
+        return new InvoiceLine(
+                resource,
+                stockPortion.getArrivalTime(),
+                stockPortion.getAmountLeftInTon(),
+                stockPortion.getStorageCostPerTonPerDay());
     }
 }

@@ -3,7 +3,7 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
-import be.kdg.mineralflow.warehouse.config.ConfigProperties;
+import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLineFactory;
 import be.kdg.mineralflow.warehouse.persistence.*;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -42,6 +43,10 @@ class InvoiceRestControllerTest extends TestContainer {
     private BuyerRepository buyerRepository;
     @Autowired
     private InvoiceService invoiceService;
+    @Autowired
+    private InvoiceLineFactory invoiceLineFactory;
+    @Autowired
+    private CommissionRepository commissionRepository;
 
     @Test
     void getInvoice_should_return_invoice() throws Exception {
@@ -94,17 +99,17 @@ class InvoiceRestControllerTest extends TestContainer {
                 buyer
         );
         Commission commission = new Commission(po,150);
-        commission.setCreationDate(dateTime);
+        commission.setCreationDate(dateTime.toLocalDate());
         resourceRepository.save(resource);
         vendorRepository.save(vendor);
         StockPortion stockPortion = new StockPortion(15,ZonedDateTime.of(dateTime, ZoneId.of("UTC")).minusDays(4),4);
         Invoice invoice = new Invoice(dateTime,
                 vendor,
-                List.of(new InvoiceLine(resource,stockPortion)));
+                List.of(invoiceLineFactory.createInvoiceLine(resource,stockPortion)));
         stockPortionRepository.save(stockPortion);
-        invoice.addCommission(commission);
         buyerRepository.save(buyer);
         purchaseOrderRepository.save(po);
+        commissionRepository.save(commission);
         invoiceRepository.save(invoice);
         return vendor;
     }

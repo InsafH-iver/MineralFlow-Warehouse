@@ -1,6 +1,5 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
-import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.mapper.InvoiceMapper;
@@ -33,10 +32,10 @@ public class InvoiceRestController {
     @GetMapping("/{vendorId}/{dateTime}")
     public ResponseEntity<InvoiceDto> getInvoice(@PathVariable UUID vendorId, @PathVariable LocalDateTime dateTime){
         logger.info(String.format("getInvoice was called with vendorId %s and dateTime %s",vendorId,dateTime));
-        Invoice invoice = invoiceService.getInvoice(vendorId,dateTime);
-        if (invoice == null) {
+        InvoiceDto invoiceDto = invoiceService.getInvoiceAndCommission(vendorId,dateTime.toLocalDate());
+        if (invoiceDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return new ResponseEntity<>(invoiceMapper.mapInvoiceToInvoiceDto(invoice),HttpStatus.OK);
+        return new ResponseEntity<>(invoiceDto,HttpStatus.OK);
     }
 }

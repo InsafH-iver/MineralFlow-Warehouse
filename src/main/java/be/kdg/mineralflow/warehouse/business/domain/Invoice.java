@@ -2,8 +2,8 @@ package be.kdg.mineralflow.warehouse.business.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,14 +18,11 @@ public class Invoice {
     private Vendor vendor;
     @OneToMany(cascade = CascadeType.ALL)
     private List<InvoiceLine> invoiceLines;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Commission> commissions;
 
     protected Invoice() {
     }
 
     public Invoice(LocalDateTime creationDate, Vendor vendor, List<InvoiceLine> invoiceLines) {
-        commissions = new ArrayList<>();
         this.creationDate = creationDate;
         this.vendor = vendor;
         this.invoiceLines = invoiceLines;
@@ -61,12 +58,5 @@ public class Invoice {
 
     public UUID getId() {
         return id;
-    }
-    public void addCommission(Commission commission){
-        commissions.add(commission);
-    }
-
-    public List<Commission> getCommissions() {
-        return commissions;
     }
 }

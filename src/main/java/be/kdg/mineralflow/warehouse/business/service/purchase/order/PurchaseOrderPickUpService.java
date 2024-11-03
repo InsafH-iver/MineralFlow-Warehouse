@@ -42,7 +42,7 @@ public class PurchaseOrderPickUpService {
         purchaseOrder.setStatus(Status.PENDING);
         boolean isFullyFulfilled = fulfillOrderLines(purchaseOrder, vendorId);
         saveStatusOfPurchaseOrder(purchaseOrder, isFullyFulfilled);
-        processEndOfCargoIfFulfilled(isFullyFulfilled, purchaseOrder);
+        processEndOfPurchaseOrderPickup(isFullyFulfilled, purchaseOrder);
     }
 
     private boolean fulfillOrderLines(PurchaseOrder purchaseOrder, UUID vendorId) {
@@ -63,7 +63,7 @@ public class PurchaseOrderPickUpService {
         purchaseOrderRepository.save(purchaseOrder);
     }
 
-    private void processEndOfCargoIfFulfilled(boolean isFulfilled, PurchaseOrder purchaseOrder) {
+    private void processEndOfPurchaseOrderPickup(boolean isFulfilled, PurchaseOrder purchaseOrder) {
         if (isFulfilled) {
             logger.info(String.format("Purchase order %s was successfully completed",
                     purchaseOrder.getPurchaseOrderNumber()));

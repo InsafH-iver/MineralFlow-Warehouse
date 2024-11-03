@@ -9,7 +9,6 @@ import be.kdg.mineralflow.warehouse.persistence.CommissionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -23,19 +22,9 @@ public class CommissionService {
         this.commissionRepository = commissionRepository;
     }
 
-
-    public Invoice addCommissionsToInvoice(Invoice invoice){
-        List<Commission> commissions = getCommissions(invoice.getCreationDate().toLocalDate(),invoice.getVendor());
-        if (commissions.isEmpty()) return invoice;
-        commissions.forEach(invoice::addCommission);
-        return invoice;
-    }
-    public List<Commission> getCommissions(LocalDate date, Vendor vendor){
-        return commissionRepository.findAllCommissionsByCreationDateAndInvoiceIsNullAndVendor(date,vendor);
-    }
     public void createAndSaveCommissionForPurchaseOrder(PurchaseOrder purchaseOrder){
         Commission commission = new Commission();
-        commission.setCreationDate(LocalDateTime.now());
+        commission.setCreationDate(LocalDate.now());
         commission.setPurchaseOrder(purchaseOrder);
         double commissionPrice = commissionCostCalculator.calculateCommissionCost(purchaseOrder.getOrderLines());
         commission.setCommisionPrice(commissionPrice);

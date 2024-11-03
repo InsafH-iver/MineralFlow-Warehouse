@@ -2,7 +2,7 @@ package be.kdg.mineralflow.warehouse.business.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +12,7 @@ public class Commission {
     private UUID id;
     @OneToOne
     private PurchaseOrder purchaseOrder;
-    private LocalDateTime creationDate;
+    private LocalDate creationDate;
     private double commisionPrice;
     @ManyToOne
     private Invoice invoice;
@@ -49,11 +49,11 @@ public class Commission {
         this.purchaseOrder = purchaseOrder;
     }
 
-    public LocalDateTime getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 }

@@ -1,9 +1,10 @@
 package be.kdg.mineralflow.warehouse.business.domain;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Entity
@@ -13,24 +14,20 @@ public class InvoiceLine {
     private UUID id;
     @ManyToOne
     private Resource resource;
-    @ManyToOne
-    private StockPortion stockPortion;
+    private ZonedDateTime arrivalTime;
+    private double amountInTon;
+    private double storageCostPerTonPerDay;
     protected InvoiceLine() {
     }
 
-    public InvoiceLine(Resource resource, StockPortion stockPortion) {
+    public InvoiceLine(Resource resource, ZonedDateTime arrivalTime, double amountInTon, double storageCostPerTonPerDay) {
         this.resource = resource;
-        this.stockPortion = stockPortion;
-    }
-    public long getDaysInStorage(LocalDateTime date){
-        return stockPortion.getDaysBetween(date);
+        this.arrivalTime = arrivalTime;
+        this.amountInTon = amountInTon;
+        this.storageCostPerTonPerDay = storageCostPerTonPerDay;
     }
     public Resource getResource() {
         return resource;
-    }
-
-    public StockPortion getStockPortion() {
-        return stockPortion;
     }
 
     public void setId(UUID id) {
@@ -39,5 +36,21 @@ public class InvoiceLine {
 
     public UUID getId() {
         return id;
+    }
+
+    public ZonedDateTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public double getAmountInTon() {
+        return amountInTon;
+    }
+
+    public double getStorageCostPerTonPerDay() {
+        return storageCostPerTonPerDay;
+    }
+
+    public long getDaysInStorage(LocalDate creationDate) {
+        return ChronoUnit.DAYS.between(arrivalTime.toLocalDate(),creationDate);
     }
 }

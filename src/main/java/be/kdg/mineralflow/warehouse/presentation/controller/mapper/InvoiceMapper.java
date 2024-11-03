@@ -1,12 +1,11 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.mapper;
 
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
-import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.util.storageCost.StorageCostCalculator;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.invoice.InvoiceLineDto;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,11 +17,11 @@ public class InvoiceMapper {
     public InvoiceMapper(StorageCostCalculator storageCostCalculator) {
         this.storageCostCalculator = storageCostCalculator;
     }
-    public InvoiceDto mapInvoiceToInvoiceDto(Invoice invoice) {
+    public InvoiceDto mapInvoiceToInvoiceDto(Invoice invoice, List<Commission> commissions) {
         List<InvoiceLineDto> invoiceLines = createInvoiceLineDtos(invoice);
         double totalStorageCost = invoiceLines.stream().mapToDouble(InvoiceLineDto::getStorageCost).sum();
-        double commissionCost = (invoice.getCommissions() == null)? 0 :
-                invoice.getCommissions().stream().mapToDouble(Commission::getCommisionPrice).sum();
+        double commissionCost = (commissions.isEmpty())? 0 :
+                commissions.stream().mapToDouble(Commission::getCommisionPrice).sum();
 
         return new InvoiceDto(
                 invoice.getVendor().getName(),
@@ -35,14 +34,13 @@ public class InvoiceMapper {
     private List<InvoiceLineDto> createInvoiceLineDtos(Invoice invoice) {
         return invoice.getInvoiceLines().stream().map(
                 il -> {
-                    StockPortion stockPortion = il.getStockPortion();
                     return new InvoiceLineDto(
-                            stockPortion.getArrivalTime().toLocalDateTime(),
+                            il.getArrivalTime().toLocalDateTime(),
                             il.getResource().getName(),
-                            stockPortion.getAmountLeftInTon(),
-                            stockPortion.getStorageCostPerTonPerDay(),
-                            il.getDaysInStorage(invoice.getCreationDate()),
-                            storageCostCalculator.calculateStorageCost(stockPortion,invoice.getCreationDate())
+                            il.getAmountInTon(),
+                            il.getStorageCostPerTonPerDay(),
+                            il.getDaysInStorage(invoice.getCreationDate().toLocalDate()),
+                            storageCostCalculator.calculateStorageCost(il,invoice.getCreationDate().toLocalDate())
                     );
                 }
         ).toList();

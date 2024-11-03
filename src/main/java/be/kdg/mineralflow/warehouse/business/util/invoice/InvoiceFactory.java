@@ -4,6 +4,7 @@ import be.kdg.mineralflow.warehouse.business.domain.*;
 import be.kdg.mineralflow.warehouse.business.service.CommissionService;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,8 +20,6 @@ public class InvoiceFactory {
 
     public Invoice createInvoice(LocalDateTime invoiceDate, Vendor vendor, List<Warehouse> warehouses) {
         List<InvoiceLine> invoiceLines = invoiceLineFactory.createInvoiceLinesFromWarehouses(warehouses);
-        Invoice invoice = new Invoice(invoiceDate, vendor, invoiceLines);
-        invoice = commissionService.addCommissionsToInvoice(invoice);
-        return invoice;
+        return new Invoice(invoiceDate, vendor, invoiceLines);
     }
 }
