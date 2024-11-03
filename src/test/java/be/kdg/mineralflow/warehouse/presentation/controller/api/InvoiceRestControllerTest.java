@@ -6,20 +6,24 @@ import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
 import be.kdg.mineralflow.warehouse.business.util.Status;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.persistence.*;
+import be.kdg.mineralflow.warehouse.presentation.controller.dto.InvoiceDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PartyDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PurchaseOrderDto;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,15 +59,14 @@ class InvoiceRestControllerTest extends TestContainer {
         LocalDateTime dateTime = LocalDateTime.now();
         invoiceService.createInvoices();
         //ACT
-        var some = mockMvc.perform(
+        MvcResult some = mockMvc.perform(
                         get("/api/invoice/{vendorId}/{dateTime}"
                                 , vendorId, dateTime)
                                 .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
-                .andExpect(header().string(
-                        HttpHeaders.CONTENT_TYPE,
-                        MediaType.APPLICATION_JSON.toString())).andReturn();
+                .andExpect(result -> assertInstanceOf(InvoiceDto.class,result)).andReturn();
         // ASSERT
+
     }
 
     private Vendor seedDataForHappyPath() {
