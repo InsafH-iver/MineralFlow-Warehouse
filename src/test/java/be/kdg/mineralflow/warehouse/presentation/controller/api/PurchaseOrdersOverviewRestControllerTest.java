@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
+import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
 import be.kdg.mineralflow.warehouse.business.domain.Status;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
@@ -21,8 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
-@SpringBootTest
-class PurchaseOrdersOverviewRestControllerTest {
+class PurchaseOrdersOverviewRestControllerTest extends TestContainer {
     @Autowired
     MockMvc mockMvc;
     @Autowired
