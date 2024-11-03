@@ -2,7 +2,7 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
-import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
+import be.kdg.mineralflow.warehouse.business.service.invoice.InvoiceService;
 import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLineFactory;
 import be.kdg.mineralflow.warehouse.persistence.*;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

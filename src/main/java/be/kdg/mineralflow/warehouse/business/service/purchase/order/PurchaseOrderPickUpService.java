@@ -4,7 +4,7 @@ import be.kdg.mineralflow.warehouse.business.domain.OrderLine;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
 import be.kdg.mineralflow.warehouse.business.domain.Status;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
-import be.kdg.mineralflow.warehouse.business.service.CommissionService;
+import be.kdg.mineralflow.warehouse.business.service.invoice.CommissionService;
 import be.kdg.mineralflow.warehouse.business.service.externalApi.EndOfPurchaseOrderPickUpPublisher;
 import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;

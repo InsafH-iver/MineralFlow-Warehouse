@@ -3,6 +3,7 @@ package be.kdg.mineralflow.warehouse.business.service;
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
+import be.kdg.mineralflow.warehouse.business.service.invoice.CommissionService;
 import be.kdg.mineralflow.warehouse.business.util.commission.CommissionCostCalculator;
 import be.kdg.mineralflow.warehouse.persistence.CommissionRepository;
 import org.junit.jupiter.api.Test;

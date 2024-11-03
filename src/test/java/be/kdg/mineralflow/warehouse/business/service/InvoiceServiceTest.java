@@ -1,6 +1,7 @@
 package be.kdg.mineralflow.warehouse.business.service;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
+import be.kdg.mineralflow.warehouse.business.service.invoice.InvoiceService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.jupiter.api.Test;

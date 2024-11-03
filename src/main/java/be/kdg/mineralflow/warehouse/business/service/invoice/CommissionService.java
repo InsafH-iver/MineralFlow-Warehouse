@@ -1,15 +1,12 @@
-package be.kdg.mineralflow.warehouse.business.service;
+package be.kdg.mineralflow.warehouse.business.service.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.Commission;
-import be.kdg.mineralflow.warehouse.business.domain.Invoice;
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
-import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.util.commission.CommissionCostCalculator;
 import be.kdg.mineralflow.warehouse.persistence.CommissionRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 
 @Service
