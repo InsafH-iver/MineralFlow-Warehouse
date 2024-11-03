@@ -1,10 +1,9 @@
 package be.kdg.mineralflow.warehouse.business.util.invoice;
 
 import be.kdg.mineralflow.warehouse.business.domain.*;
-import be.kdg.mineralflow.warehouse.business.service.CommissionService;
+import be.kdg.mineralflow.warehouse.business.service.invoice.CommissionService;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
