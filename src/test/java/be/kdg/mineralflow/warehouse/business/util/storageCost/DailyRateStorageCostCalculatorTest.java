@@ -1,19 +1,19 @@
-package be.kdg.mineralflow.warehouse.business.domain;
+package be.kdg.mineralflow.warehouse.business.util.storageCost;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
-import be.kdg.mineralflow.warehouse.business.util.storageCost.DailyRateStorageCostCalculator;
+import be.kdg.mineralflow.warehouse.business.domain.Resource;
+import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class InvoiceTest extends TestContainer {
+class DailyRateStorageCostCalculatorTest extends TestContainer {
     @Autowired
     private DailyRateStorageCostCalculator storageCostCalculator;
     @Test
@@ -27,7 +27,10 @@ class InvoiceTest extends TestContainer {
         //ACT
         double totalStorageCost = storageCostCalculator.calculateStorageCost(stockPortion1,date.toLocalDateTime());
         //ASSERT
-        assertThat(totalStorageCost).isEqualTo(36);
+        assertThat(totalStorageCost).isEqualTo(
+                stockPortion1.getAmountLeftInTon()*
+                stockPortion1.getDaysBetween(date.toLocalDateTime())*
+                stockPortion1.getStorageCostPerTonPerDay());
     }
     @Test
     void getTotalStorageCost_should_return_zero_when_no_days_in_storage_with_DailyRateStorageCostCalculator() {

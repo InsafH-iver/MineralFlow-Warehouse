@@ -33,13 +33,12 @@ public class CommissionService {
     public List<Commission> getCommissions(LocalDate date, Vendor vendor){
         return commissionRepository.findAllCommissionsByCreationDateAndInvoiceIsNullAndVendor(date,vendor);
     }
-    public PurchaseOrder createCommissionForPurchaseOrder(PurchaseOrder purchaseOrder){
+    public void createAndSaveCommissionForPurchaseOrder(PurchaseOrder purchaseOrder){
         Commission commission = new Commission();
         commission.setCreationDate(LocalDateTime.now());
         commission.setPurchaseOrder(purchaseOrder);
         double commissionPrice = commissionCostCalculator.calculateCommissionCost(purchaseOrder.getOrderLines());
         commission.setCommisionPrice(commissionPrice);
         commissionRepository.save(commission);
-        return purchaseOrder;
     }
 }

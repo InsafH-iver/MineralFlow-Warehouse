@@ -12,6 +12,8 @@ public class DailyRateStorageCostCalculator implements StorageCostCalculator {
     @Override
     public double calculateStorageCost(StockPortion stockPortion, LocalDateTime time) {
         long daysBetween = stockPortion.getDaysBetween(time);
-        return daysBetween * stockPortion.getStorageCostPerTonPerDay();
+        return  daysBetween *
+                stockPortion.getStorageCostPerTonPerDay() *
+                stockPortion.getAmountLeftInTon();
     }
 }

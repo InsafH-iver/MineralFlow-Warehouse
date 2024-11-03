@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,9 @@ class InvoiceRestControllerTest extends TestContainer {
     @Autowired
     private PurchaseOrderRepository purchaseOrderRepository;
     @Autowired
-    private CommissionRepository commissionRepository;
+    private StockPortionRepository stockPortionRepository;
+    @Autowired
+    private InvoiceRepository invoiceRepository;
     @Autowired
     private ResourceRepository resourceRepository;
     @Autowired
@@ -39,10 +42,6 @@ class InvoiceRestControllerTest extends TestContainer {
     private BuyerRepository buyerRepository;
     @Autowired
     private InvoiceService invoiceService;
-    @Autowired
-    private ConfigProperties configProperties;
-    @Autowired
-    private WarehouseRepository warehouseRepository;
 
     @Test
     void getInvoice_should_return_invoice() throws Exception {
@@ -63,8 +62,8 @@ class InvoiceRestControllerTest extends TestContainer {
         String invoice = result.getResponse().getContentAsString();
         assertThat(invoice).containsIgnoringCase(vendor.getName());
         assertThat(invoice).containsIgnoringCase("commissionCost\":150");
-        assertThat(invoice).containsIgnoringCase("totalStorageCost\":16");
-        assertThat(invoice).containsIgnoringCase("weightInTon\":412");
+        assertThat(invoice).containsIgnoringCase("totalStorageCost\":240");
+        assertThat(invoice).containsIgnoringCase("weightInTon\":15");
         assertThat(invoice).containsIgnoringCase("vendorName\":\"berend janssens\"");
 
     }
@@ -96,17 +95,17 @@ class InvoiceRestControllerTest extends TestContainer {
         );
         Commission commission = new Commission(po,150);
         commission.setCreationDate(dateTime);
-        resourceRepository.saveAndFlush(resource);
-        Vendor resultVendor = vendorRepository.save(vendor);
-        Warehouse warehouse = new Warehouse(UUID.randomUUID(),2,
-                123,configProperties.getWarehouseMaxCapacityInTon());
-        warehouse.setVendor(resultVendor);
-        warehouse.setResource(resource);
-        warehouse.setStockPortions(List.of(new StockPortion(412, ZonedDateTime.now().minusDays(4),4)));
-        warehouseRepository.save(warehouse);
+        resourceRepository.save(resource);
+        vendorRepository.save(vendor);
+        StockPortion stockPortion = new StockPortion(15,ZonedDateTime.of(dateTime, ZoneId.of("UTC")).minusDays(4),4);
+        Invoice invoice = new Invoice(dateTime,
+                vendor,
+                List.of(new InvoiceLine(resource,stockPortion)));
+        stockPortionRepository.save(stockPortion);
+        invoice.addCommission(commission);
         buyerRepository.save(buyer);
         purchaseOrderRepository.save(po);
-        commissionRepository.save(commission);
+        invoiceRepository.save(invoice);
         return vendor;
     }
 }
