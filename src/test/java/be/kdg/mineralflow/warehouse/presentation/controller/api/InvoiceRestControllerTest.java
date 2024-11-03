@@ -20,7 +20,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -56,18 +58,19 @@ class InvoiceRestControllerTest extends TestContainer {
 
         //ACT
         // ASSERT
-        MvcResult result = mockMvc.perform(
+        mockMvc.perform(
                         get("/api/invoice/{vendorId}/{dateTime}"
                                 , vendorId, dateTime)
-                                .accept(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
-                .andReturn();
-        String invoice = result.getResponse().getContentAsString();
-        assertThat(invoice).containsIgnoringCase(vendor.getName());
-        assertThat(invoice).containsIgnoringCase("commissionCost\":150");
-        assertThat(invoice).containsIgnoringCase("totalStorageCost\":240");
-        assertThat(invoice).containsIgnoringCase("weightInTon\":15");
-        assertThat(invoice).containsIgnoringCase("vendorName\":\"berend janssens\"");
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.vendorName", is("berend janssens")))
+                .andExpect(jsonPath("$.totalStorageCost", is(300.0)))
+                .andExpect(jsonPath("$.commissionCost", is(150.0)))
+                .andExpect(jsonPath("$.invoiceLines[0].resource", is("hout")))
+                .andExpect(jsonPath("$.invoiceLines[0].weightInTon", is(15.0)))
+                .andExpect(jsonPath("$.invoiceLines[0].storageCostPerDayPerTon", is(5.0)))
+                .andExpect(jsonPath("$.invoiceLines[0].daysInStorage", is(4)))
+                .andExpect(jsonPath("$.invoiceLines[0].storageCost", is(300.0)));
 
     }
     @Test
