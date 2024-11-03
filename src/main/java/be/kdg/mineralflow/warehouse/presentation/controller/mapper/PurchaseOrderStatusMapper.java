@@ -14,10 +14,9 @@ import java.util.List;
 public interface PurchaseOrderStatusMapper {
     PurchaseOrderStatusMapper INSTANCE = Mappers.getMapper(PurchaseOrderStatusMapper.class);
 
-    @Mapping(source = "inspectionNumber", target = "inspectionNumber")
-    @Mapping(source = "startingTime", target = "startingTime")
-    @Mapping(source = "endingTime", target = "endingTime")
-    @Mapping(source = "hasBeenApproved", target = "hasBeenApproved")
+    @Mapping(source = "purchaseOrderNumber", target = "purchaseOrderNumber")
+    @Mapping(source = "vesselNumber", target = "vesselNumber")
+    @Mapping(source = "status", target = "status")
     PurchaseOrderStatusDto mapPurchaseOrderToPurchaseOrderStatusDto(PurchaseOrder purchaseOrder);
 
     List<PurchaseOrderStatusDto> mapPurchaseOrders(List<PurchaseOrder> inspectionOperations);
