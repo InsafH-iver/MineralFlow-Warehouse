@@ -1,0 +1,3 @@
+###Get method to fetch warehouse and stockportion info of warehouse with id 33333333-1111-1111-1111-111111111202
+GET http://localhost:8081/api/warehouses-overview/33333333-1111-1111-1111-111111111202
+Content-Type: application/json
