@@ -2,7 +2,9 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
+import be.kdg.mineralflow.warehouse.business.service.InvoiceService;
 import be.kdg.mineralflow.warehouse.business.util.Status;
+import be.kdg.mineralflow.warehouse.config.ConfigProperties;
 import be.kdg.mineralflow.warehouse.persistence.*;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.OrderLineDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.PartyDto;
@@ -37,14 +39,21 @@ class InvoiceRestControllerTest extends TestContainer {
     @Autowired
     private BuyerRepository buyerRepository;
     @Autowired
+    private InvoiceService invoiceService;
+    @Autowired
+    private ConfigProperties configProperties;
+    @Autowired
+    private WarehouseRepository warehouseRepository;
+    @Autowired
     private InvoiceRestController invoiceRestController;
 
     @Test
     void getInvoice_should_return_invoice() throws Exception {
         //ARRANGE
-        UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111115");
-        LocalDateTime dateTime = LocalDateTime.of(2024, 2, 2, 2, 2);
-        seedDataForHappyPath();
+        Vendor vendor = seedDataForHappyPath();
+        UUID vendorId = vendor.getId();
+        LocalDateTime dateTime = LocalDateTime.now();
+        invoiceService.createInvoices();
         //ACT
         var some = mockMvc.perform(
                         get("/api/invoice/{vendorId}/{dateTime}"
@@ -55,10 +64,9 @@ class InvoiceRestControllerTest extends TestContainer {
                         HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_JSON.toString())).andReturn();
         // ASSERT
-        System.out.println(some);
     }
 
-    private void seedDataForHappyPath() {
+    private Vendor seedDataForHappyPath() {
         Buyer buyer = new Buyer("somewhere over the rainbow", "freddy janssens");
         Vendor vendor = new Vendor("somewhere over the rainbow", "freddy janssens");
         Resource resource = new Resource("Hout","hout",10,5);
@@ -71,9 +79,14 @@ class InvoiceRestControllerTest extends TestContainer {
         );
         Commission commission = new Commission(po,150);
         resourceRepository.saveAndFlush(resource);
-        vendorRepository.save(vendor);
+        Vendor resultVendor = vendorRepository.save(vendor);
+        Warehouse warehouse = new Warehouse(2,
+                123,configProperties.getWarehouseMaxCapacityInTon());
+        warehouse.setVendor(resultVendor);
+        warehouseRepository.save(warehouse);
         buyerRepository.save(buyer);
         purchaseOrderRepository.save(po);
         commissionRepository.save(commission);
+        return vendor;
     }
 }

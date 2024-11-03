@@ -33,7 +33,7 @@ class WarehouseServiceTest extends TestContainer {
     void getWarehouseNumberByVendorAndResourceId_When_Warehouse_Exists() {
         //ARRANGE
         int warehouseNumber = 2;
-        Warehouse warehouse = new Warehouse(UUID.randomUUID(), warehouseNumber,
+        Warehouse warehouse = new Warehouse(warehouseNumber,
                 123,configProperties.getWarehouseMaxCapacityInTon());
         UUID vendorId = UUID.randomUUID();
         UUID resourceId = UUID.randomUUID();

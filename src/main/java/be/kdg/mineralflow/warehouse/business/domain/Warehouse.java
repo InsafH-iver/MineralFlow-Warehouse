@@ -44,8 +44,7 @@ public class Warehouse {
     public int getWarehouseNumber() {
         return warehouseNumber;
     }
-
-    public boolean isFull(double maxCapacityThreshold) {
+    public boolean isFull(double maxCapacityThreshold){
         return usedCapacityInTon >= maxCapacityInTon * maxCapacityThreshold;
     }
 
@@ -77,12 +76,24 @@ public class Warehouse {
         return vendor;
     }
 
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
     public double getUsedCapacityInTon() {
         return usedCapacityInTon;
     }
 
     public List<DeliveryTicket> getDeliveryTickets() {
         return deliveryTickets;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void reduceStock(double amountInTonTakenOut) {
