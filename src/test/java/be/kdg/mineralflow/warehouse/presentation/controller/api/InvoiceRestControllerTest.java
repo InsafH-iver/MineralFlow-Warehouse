@@ -54,7 +54,6 @@ class InvoiceRestControllerTest extends TestContainer {
         LocalDateTime dateTime = LocalDateTime.now();
         Vendor vendor = seedDataForHappyPath(dateTime);
         UUID vendorId = vendor.getId();
-        invoiceService.createInvoices();
 
         //ACT
         // ASSERT
@@ -99,7 +98,7 @@ class InvoiceRestControllerTest extends TestContainer {
                 buyer
         );
         Commission commission = new Commission(po,150);
-        commission.setCreationDate(dateTime.toLocalDate());
+        commission.setCreationDate(dateTime.toLocalDate().minusDays(1));
         resourceRepository.save(resource);
         vendorRepository.save(vendor);
         StockPortion stockPortion = new StockPortion(15,ZonedDateTime.of(dateTime, ZoneId.of("UTC")).minusDays(4),4);
