@@ -2,15 +2,14 @@ package be.kdg.mineralflow.warehouse.handler;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
-import be.kdg.mineralflow.warehouse.business.service.warehouse.StockPortionDeliveryService;
 import be.kdg.mineralflow.warehouse.business.service.externalApi.EndOfPurchaseOrderPickUpPublisher;
+import be.kdg.mineralflow.warehouse.business.service.warehouse.StockPortionDeliveryService;
 import be.kdg.mineralflow.warehouse.business.util.provider.ZonedDateTimeProvider;
 import be.kdg.mineralflow.warehouse.exception.IncorrectDomainException;
 import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
+import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.OrderLineRepository;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
-import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.dto.TruckArrivalAtWarehouseDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
