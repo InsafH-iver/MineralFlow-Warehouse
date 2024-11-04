@@ -2,7 +2,6 @@ package be.kdg.mineralflow.warehouse.business.service.purchase.order;
 
 import be.kdg.mineralflow.warehouse.business.domain.PurchaseOrder;
 import be.kdg.mineralflow.warehouse.business.domain.Status;
-import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrderStatusDto;
 import be.kdg.mineralflow.warehouse.presentation.controller.dto.purchase.order.PurchaseOrdersOverviewDto;

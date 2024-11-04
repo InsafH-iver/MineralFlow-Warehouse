@@ -2,7 +2,6 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.*;
-import be.kdg.mineralflow.warehouse.business.service.invoice.InvoiceService;
 import be.kdg.mineralflow.warehouse.business.util.invoice.InvoiceLineFactory;
 import be.kdg.mineralflow.warehouse.persistence.*;
 import be.kdg.mineralflow.warehouse.persistence.purchase.order.PurchaseOrderRepository;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,7 +17,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,8 +39,6 @@ class InvoiceRestControllerTest extends TestContainer {
     private VendorRepository vendorRepository;
     @Autowired
     private BuyerRepository buyerRepository;
-    @Autowired
-    private InvoiceService invoiceService;
     @Autowired
     private InvoiceLineFactory invoiceLineFactory;
     @Autowired

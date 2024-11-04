@@ -3,7 +3,6 @@ package be.kdg.mineralflow.warehouse.business.util.storageCost;
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.InvoiceLine;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
-import be.kdg.mineralflow.warehouse.business.domain.StockPortion;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +11,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DailyRateStorageCostCalculatorTest extends TestContainer {
     @Autowired

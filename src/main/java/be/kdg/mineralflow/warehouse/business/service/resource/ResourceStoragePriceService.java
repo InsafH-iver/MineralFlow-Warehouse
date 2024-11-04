@@ -2,8 +2,8 @@ package be.kdg.mineralflow.warehouse.business.service.resource;
 
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
-import jakarta.validation.constraints.Min;
 import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Service

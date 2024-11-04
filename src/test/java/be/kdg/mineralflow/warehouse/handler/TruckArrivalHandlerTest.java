@@ -97,6 +97,7 @@ class TruckArrivalHandlerTest extends TestContainer {
 
             Mockito.doNothing().when(endOfPurchaseOrderPickUpPublisher)
                     .publishEndOfPurchaseOrderPickUp(null, endTime);
+
             //ACT
             stockPortionDeliveryService.handleStockPortionAtDelivery(
                     vendorId, resourceId, amountInTon, unloadingRequestId, endWeightTime);
@@ -133,9 +134,7 @@ class TruckArrivalHandlerTest extends TestContainer {
         UUID resourceId = UUID.fromString("33333333-1111-1111-1111-111111111201");
         UUID vendorId = UUID.fromString("33333333-1111-1111-1111-111111111200");
         UUID unloadingRequestId = UUID.fromString("33333311-1111-1111-1111-111111111131");
-        TruckArrivalAtWarehouseDto truckArrivalAtWarehouseDto =
-                new TruckArrivalAtWarehouseDto(vendorId, resourceId, amountInTon, endWeightTime, unloadingRequestId);
-        UUID orderLineId = UUID.fromString("22222233-1111-1111-1111-511111111131");
+          UUID orderLineId = UUID.fromString("22222233-1111-1111-1111-511111111131");
         Mockito.when(zonedDateTimeProvider.now()).thenReturn(endTime);
         Mockito.doNothing().when(endOfPurchaseOrderPickUpPublisher)
                 .publishEndOfPurchaseOrderPickUp(poNumber, endTime);
@@ -175,9 +174,6 @@ class TruckArrivalHandlerTest extends TestContainer {
         UUID vendorId = UUID.fromString("34011111-1111-1111-1111-111111111120");
         UUID unloadingRequestId = UUID.fromString("24111111-1111-1111-1111-111111111131");
 
-        TruckArrivalAtWarehouseDto truckArrivalAtWarehouseDto =
-                new TruckArrivalAtWarehouseDto(vendorId, resourceId, amountInTon, endWeightTime, unloadingRequestId);
-
         //ACT
         // ASSERT
         assertThrows(NoItemFoundException.class, () ->
@@ -194,9 +190,6 @@ class TruckArrivalHandlerTest extends TestContainer {
         UUID vendorId = UUID.fromString("34011111-1111-1111-1111-111111111120");
         UUID unloadingRequestId = UUID.fromString("24111111-1111-1111-1111-111111111131");
 
-        TruckArrivalAtWarehouseDto truckArrivalAtWarehouseDto =
-                new TruckArrivalAtWarehouseDto(vendorId, resourceId, amountInTon, endWeightTime, unloadingRequestId);
-
         //ACT
         // ASSERT
         assertThrows(NoItemFoundException.class, () ->
@@ -212,8 +205,6 @@ class TruckArrivalHandlerTest extends TestContainer {
         UUID resourceId = UUID.fromString("11111111-1111-1111-1111-111111111120");
         UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111121");
         UUID unloadingRequestId = UUID.fromString("11111111-1111-1111-1111-111111111131");
-        TruckArrivalAtWarehouseDto truckArrivalAtWarehouseDto =
-                new TruckArrivalAtWarehouseDto(vendorId, resourceId, amountInTon, endWeightTime, unloadingRequestId);
 
         //ACT
         // ASSERT

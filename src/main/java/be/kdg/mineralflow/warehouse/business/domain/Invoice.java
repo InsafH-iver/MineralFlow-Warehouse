@@ -2,7 +2,6 @@ package be.kdg.mineralflow.warehouse.business.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

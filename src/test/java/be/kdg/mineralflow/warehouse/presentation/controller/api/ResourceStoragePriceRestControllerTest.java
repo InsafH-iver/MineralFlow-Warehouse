@@ -2,11 +2,8 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
-import be.kdg.mineralflow.warehouse.business.service.resource.ResourceStoragePriceService;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.mapper.ResourceMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,10 +14,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 class ResourceStoragePriceRestControllerTest extends TestContainer {

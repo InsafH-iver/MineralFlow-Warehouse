@@ -6,9 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -45,9 +43,7 @@ public class StockPortion {
     public ZonedDateTime getArrivalTime() {
         return arrivalTime;
     }
-    public long getDaysBetween(LocalDateTime dateTime) {
-        return ChronoUnit.DAYS.between(LocalDateTime.from(arrivalTime),dateTime);
-    }
+
 
     public double getStorageCostPerTonPerDay() {
         return storageCostPerTonPerDay;

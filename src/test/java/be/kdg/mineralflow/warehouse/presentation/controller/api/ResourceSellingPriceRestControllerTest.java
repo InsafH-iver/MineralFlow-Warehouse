@@ -2,9 +2,7 @@ package be.kdg.mineralflow.warehouse.presentation.controller.api;
 
 import be.kdg.mineralflow.warehouse.TestContainer;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
-import be.kdg.mineralflow.warehouse.business.service.resource.ResourceSellingPriceService;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
-import be.kdg.mineralflow.warehouse.presentation.controller.mapper.ResourceMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
