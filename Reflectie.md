@@ -47,8 +47,8 @@ Verder komen we goed overeen en zijn we kritisch over elkaars code/ keuze ivm de
 
 ### Feedback
 
-- fifo volledig up to you 
-- readme uitleg over project, hoe runnen, wat te configureren 
+- fifo volledig up to you
+- readme uitleg over project, hoe runnen, wat te configureren
 - kijken naar @configurationProperties ipv application.properties
 
 
@@ -85,6 +85,41 @@ applicatie uitgewerkt? (details progress kunnen we bekijken op het issue board)*
 ### Vragen
 
 *Eventuele vragen voor je coach*
+## Post coaching
+
+### Feedback
+
+-
+
+# V3
+
+## 🔗 Pre coaching
+
+### Geschatte Progress (in procent): 100%
+
+### Status
+
+*Waar sta je globaal? Wat loopt goed en minder goed? Hoe verloopt de samenwerking? Wie heeft globaal welke delen van de
+applicatie uitgewerkt? (details progress kunnen we bekijken op het issue board)*
+
+# Insaf:
+- alle issues die af moesten zijn, zijn af
+- ook hebben we bepaalde dingen toegevoegd
+
+# Timon:
+
+
+### Stories
+
+
+
+### Quality
+....
+
+### Vragen
+
+- moesten we dit invullen voor het examen?
+
 ## Post coaching
 
 ### Feedback
