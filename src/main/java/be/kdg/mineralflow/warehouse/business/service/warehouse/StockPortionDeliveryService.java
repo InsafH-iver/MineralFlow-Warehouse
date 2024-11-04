@@ -5,7 +5,6 @@ import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
 import be.kdg.mineralflow.warehouse.business.service.purchase.order.UnfulfilledOrderLineService;
 import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
-import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.DeliveryTicketRepository;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
@@ -67,15 +66,11 @@ public class StockPortionDeliveryService {
     }
 
     private Resource getResource(UUID resourceId) {
-        Optional<Resource> optionalResource = resourceRepository.findById(resourceId);
-
-        if (optionalResource.isEmpty()) {
-            String messageException = String.format("Resource with id %s was not found", resourceId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-
-        return optionalResource.get();
+        return resourceRepository.findById(resourceId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "Resource with id %s was not found",
+                        resourceId
+                ));
     }
 
     private ZonedDateTime getDeliveryTime(UUID unloadingRequestId, ZonedDateTime endWeightTime) {

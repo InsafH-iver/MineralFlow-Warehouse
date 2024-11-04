@@ -3,15 +3,14 @@ package be.kdg.mineralflow.warehouse.business.service.warehouse;
 import be.kdg.mineralflow.warehouse.business.domain.Resource;
 import be.kdg.mineralflow.warehouse.business.domain.Vendor;
 import be.kdg.mineralflow.warehouse.business.domain.Warehouse;
+import be.kdg.mineralflow.warehouse.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.warehouse.config.ConfigProperties;
-import be.kdg.mineralflow.warehouse.exception.NoItemFoundException;
 import be.kdg.mineralflow.warehouse.persistence.ResourceRepository;
 import be.kdg.mineralflow.warehouse.persistence.VendorRepository;
 import be.kdg.mineralflow.warehouse.persistence.WarehouseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -33,23 +32,30 @@ public class WarehouseCapacityService {
 
     public boolean isWarehouseFull(UUID vendorId, UUID resourceId) {
         logger.info(String.format("Checking if warehouse %s is full", vendorId));
-        Optional<Vendor> optionalVendor = vendorRepository.findById(vendorId);
-        if (optionalVendor.isEmpty()) {
-            String messageException = String.format("Vendor with id %s, was not found", vendorId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
+        Vendor vendor = getVendor(vendorId);
 
-        Optional<Resource> optionalResource = resourceRepository.findById(resourceId);
-        if (optionalResource.isEmpty()) {
-            String messageException = String.format("Resource with id %s, was not found", resourceId);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        List<Warehouse> warehouse = warehouseRepository.findAllByVendorIdAndResourceId(optionalVendor.get().getId(),optionalResource.get().getId());
+        Resource resource = getResource(resourceId);
+
+        List<Warehouse> warehouse = warehouseRepository.findAllByVendorIdAndResourceId(vendor.getId(), resource.getId());
         for (Warehouse w : warehouse) {
             if (!w.isFull(configProperties.getWarehouseMaxCapacityThreshold())) return false;
         }
         return true;
+    }
+
+    private Vendor getVendor(UUID vendorId) {
+        return vendorRepository.findById(vendorId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "Vendor with id %s, was not found",
+                        vendorId
+                ));
+    }
+
+    private Resource getResource(UUID resourceId) {
+        return resourceRepository.findById(resourceId)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "Resource with id %s, was not found",
+                        resourceId
+                ));
     }
 }
