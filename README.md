@@ -48,7 +48,7 @@ spring.rabbitmq.password=
 
 ## Running the Application
 1. Ensure all containers are running. (Keycloak, database, RabbitMQ)
-2. Ensure all projects are pulled and set up correctly ([Land](https://github.com/InsafH-iver/MineralFlow-Land), Warehouse, Water)
+2. Ensure all projects are pulled and set up correctly ([Land](https://github.com/InsafH-iver/MineralFlow-Land), Warehouse, [Water](https://github.com/InsafH-iver/MineralFlow-Water))
 3. Start the Spring Boot application.
 4. Access the application at `http://localhost:8081` (backend API).
 
