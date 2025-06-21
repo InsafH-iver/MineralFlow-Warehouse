@@ -33,7 +33,7 @@ BEGIN
     VALUES (''22222222-2222-2222-2222-222222222224'',
             ''22222222-2222-2222-2222-222222222223'', -- resource_id (UUID of related resource entity)
             ''22222222-2222-2222-2222-222222222222'',
-            0,
+            28.7,
             3,
             warehouseMaxCapacityInTon),
            (''33333333-1111-1111-1111-111111111202'',
@@ -94,13 +94,12 @@ values ('44444433-1111-1111-1111-111111111130',
 
 INSERT INTO purchase_order (id, purchase_order_number, status, vendor_id, vessel_number)
 VALUES ('33333333-1111-1111-1111-111111111130', 'PO2345', 'OPEN',
-        '33333333-1111-1111-1111-111111111200',
+        '22222222-2222-2222-2222-222222222222',
         'VE123456');
 
 INSERT INTO order_line (id, amount_in_ton, has_been_completed, resource_id, selling_price_per_ton)
-VALUES ('22222233-1111-1111-1111-511111111131', 50, FALSE,
-        '33333333-1111-1111-1111-111111111201',130);
-
+VALUES ('22222233-1111-1111-1111-511111111131', 10, FALSE,
+        '22222222-2222-2222-2222-222222222223',130);
 INSERT INTO purchase_order_order_lines (purchase_order_id, order_lines_id)
 VALUES ('33333333-1111-1111-1111-111111111130',
         '22222233-1111-1111-1111-511111111131');
